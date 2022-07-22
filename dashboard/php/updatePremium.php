@@ -1,7 +1,6 @@
 <?php
 
 include "../../src/database.php";
-require "PaypalPayment.php";
 
 $username = $_POST['username'];
 $payment_status = $_POST['status'];

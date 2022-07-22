@@ -5,9 +5,9 @@ namespace Cloudflare;
 class api {
 
      public $base_url = 'https://api.cloudflare.com/client/v4/';
-     public $api_key = 'kzis4udkWX4WtWtMd--b58Z5vr7HaeDJwMAzurYc';
-     public $email = 'alexandermitru07@gmail.com';
-     public $account_id = 'c719ea39b7f3af5cd26a95a58b2d4ac2';
+     public $api_key = '';
+     public $email = '';
+     public $account_id = '';
 
      public function request($method, $uri, $data = []) {
           $url = $this->base_url . $uri;

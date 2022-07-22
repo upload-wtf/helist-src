@@ -1,9 +1,9 @@
 <?php
 
 $dbHost = "localhost";
-$dbUser = "s5370_uploader";
-$dbPass = "#6mW7s2o2";
-$dbName = "s5370_uploader";
+$dbUser = "user";
+$dbPass = "password";
+$dbName = "name";
 
 
 $db = new mysqli($dbHost, $dbUser, $dbPass, $dbName);

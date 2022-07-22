@@ -6,8 +6,11 @@ include "./src/functions.php";
 
 $protocol = "https";
 try {
-    //$type = "png";
-    $type = strtolower(pathinfo($_FILES['file']['name'], PATHINFO_EXTENSION));
+    $allowed_extensions = array("png", "jpg", "jpeg", "gif");
+    $extension = pathinfo($_FILES['file']['name'], PATHINFO_EXTENSION);
+    if (!in_array($extension, $allowed_extensions)) {
+        throw new Exception("Invalid file type");
+    }
 } catch (Exception $e) {
     echo $e;
 }
