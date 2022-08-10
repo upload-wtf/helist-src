@@ -41,7 +41,6 @@ $use_customdomain = $user['use_customdomain'];
 $invisible_url = $user['use_invisible_url'];
 $emoji_url = $user['use_emoji_url'];
 $sus_url = $user['use_sus_url'];
-$shurk_url = $user['use_shurk_url'];
 $uuid = $user['uuid'];
 $uploadToDomain = $user['upload_domain'];
 $uploads = intval($user['uploads']) + 1;
@@ -105,6 +104,7 @@ if ($maintenance == "true") {
                         $sql = "INSERT INTO `invites`(`id`, `inviteCode`, `inviteAuthor`) VALUES (NULL, '" . $gennedInvite . "', '" . $username . "');";
                         $result = mysqli_query($db, $sql);
                     }
+                    $type = strtolower(pathinfo($_FILES['file']['name'], PATHINFO_EXTENSION));
                     $rnd = rndFileName(8);
                     if ($filename_type == "short") {
                         $rnd = rndFileName(8);
