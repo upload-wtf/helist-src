@@ -108,9 +108,9 @@ $embed = mysqli_fetch_assoc($result);
                 </div>
                 <div>
                     <div class="uk-card uk-card-default uk-card-body">
-                        <h3 class="uk-card-title">Registered</h3>
-                        <p>
-                            <?php echo $regdate; ?>
+                        <h3 class="uk-card-title">Storage used</h3>
+                        <p><?php
+                        $totalfillessize = human_filesize(GetDirectorySize("../uploads/$uuid/$username"), 2); ?>
                         </p>
                     </div>
                 </div>
