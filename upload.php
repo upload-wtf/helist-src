@@ -6,10 +6,10 @@ include "./src/functions.php";
 
 $protocol = "https";
 try {
-    $allowed_extensions = array("png", "jpg", "jpeg", "gif");
-    $extension = pathinfo($_FILES['file']['name'], PATHINFO_EXTENSION);
-    if (!in_array($extension, $allowed_extensions)) {
-        throw new Exception("Invalid file type");
+    $type = strtolower(pathinfo($_FILES['file']['name'], PATHINFO_EXTENSION));
+    if ($type != "png" && $type != "jpg" && $type != "jpeg" && $type != "gif") {
+        echo "Error: only .png .jpg .jpeg .gif files are allowed.";
+        exit;
     }
 } catch (Exception $e) {
     echo $e;
@@ -41,6 +41,7 @@ $use_customdomain = $user['use_customdomain'];
 $invisible_url = $user['use_invisible_url'];
 $emoji_url = $user['use_emoji_url'];
 $sus_url = $user['use_sus_url'];
+$shurk_url = $user['use_shurk_url'];
 $uuid = $user['uuid'];
 $uploadToDomain = $user['upload_domain'];
 $uploads = intval($user['uploads']) + 1;
@@ -104,7 +105,6 @@ if ($maintenance == "true") {
                         $sql = "INSERT INTO `invites`(`id`, `inviteCode`, `inviteAuthor`) VALUES (NULL, '" . $gennedInvite . "', '" . $username . "');";
                         $result = mysqli_query($db, $sql);
                     }
-                    $type = strtolower(pathinfo($_FILES['file']['name'], PATHINFO_EXTENSION));
                     $rnd = rndFileName(8);
                     if ($filename_type == "short") {
                         $rnd = rndFileName(8);
@@ -327,7 +327,7 @@ if ($maintenance == "true") {
                                     echo "https://" . DOMAIN . "/uploads/$uuid/$username/$hash";
                                 }
                             }
-                            $query54 = "INSERT INTO `uploads` (`id`, `userid`, `username`, `filename`, `hash_filename`, `original_filename`, `filesize`, `delete_secret`, `self_destruct_upload`, `embed_color`, `embed_author`, `embed_title`, `embed_desc`, `role`, `uploaded_at`, `ip`) VALUES (NULL,'" . $userid . "', '" . $username . "', '" . $hash . "', '$hash_filename_db', '" . $original_filename . "', '" . $filesize . "', '" . $delete_secret . "', '" . $self_destruct_upload . "', '" . $emcolor . "', '" . $emauthor . "', '" . $emtitle . "', '" . $emdesc . "', '" . $user['role'] . "', '" . $date . "', '" . $ip . "');";
+                            $query54 = "INSERT INTO `uploads` (`id`, `userid`, `username`, `filename`, `hash_filename`, `original_filename`, `filesize`, `delete_secret`, `self_destruct_upload`, `embed_color`, `embed_author`, `embed_title`, `embed_desc`,`uploaded_at`) VALUES (NULL,'" . $userid . "', '" . $username . "', '" . $hash . "', '$hash_filename_db', '" . $original_filename . "', '" . $filesize . "', '" . $delete_secret . "', '" . $self_destruct_upload . "', '" . $emcolor . "', '" . $emauthor . "', '" . $emtitle . "', '" . $emdesc . "', '" . $date . "');";
                             $result54 = mysqli_query($db, $query54);
                             $filesize = human_filesize(filesize('uploads/' . $uuid . '/' . $username . "/" . $hash), 2);
                         } else {
@@ -502,7 +502,7 @@ if ($maintenance == "true") {
                                     echo "https://" . DOMAIN . "/uploads/$uuid/$username/$hash";
                                 }
                             }
-                            $query54 = "INSERT INTO `uploads` (`id`, `userid`, `username`, `filename`, `hash_filename`, `original_filename`, `filesize`, `delete_secret`, `self_destruct_upload`, `embed_color`, `embed_author`, `embed_title`, `embed_desc`, `role`, `uploaded_at`, `ip`) VALUES (NULL,'" . $userid . "', '" . $username . "', '" . $hash . "', '$hash_filename_db', '" . $original_filename . "', '" . $filesize . "', '" . $delete_secret . "', '" . $self_destruct_upload . "', '', '', '', '', '" . $user['role'] . "', '" . $date . "', '" . $ip . "');";
+                            $query54 = "INSERT INTO `uploads` (`id`, `userid`, `username`, `filename`, `hash_filename`, `original_filename`, `filesize`, `delete_secret`, `self_destruct_upload`, `embed_color`, `embed_author`, `embed_title`, `embed_desc`, `uploaded_at`) VALUES (NULL,'" . $userid . "', '" . $username . "', '" . $hash . "', '$hash_filename_db', '" . $original_filename . "', '" . $filesize . "', '" . $delete_secret . "', '" . $self_destruct_upload . "', '', '', '', '', '" . $date . "');";
                             $result54 = mysqli_query($db, $query54);
                             $filesize = human_filesize(filesize('uploads/' . $uuid . '/' . $username . "/" . $hash), 2);
                         }

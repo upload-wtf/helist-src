@@ -7,7 +7,7 @@ require_once '../src/functions.php';
 session_start();
 
 if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
-    header('location: /logout');
+    header('location: ../');
     exit();
 }
 
@@ -165,7 +165,7 @@ $selecteddomain = $rows['domain'];
                         <!-- <div class="uk-form-row">
                            <label class="uk-form-label" for="titleurl">Embed Title URL</label>
                            <input class="uk-input" type="text" name="titleurl" id="titleurl" value="<?php echo $embed[
-                               'titleurl'
+                               'embedurl'
                            ]; ?>" />
                            </div> -->
                         <div class="uk-form-row">
@@ -183,7 +183,7 @@ $selecteddomain = $rows['domain'];
                         <br>
                         <div class="uk-form-row">
                            <button class="uk-button uk-button-primary" type="submit" onclick="get(this.form)" name="button1">Update Embed</button>
-                            <button class="uk-button uk-button-primary" type="button" onclick="preview()">Preview</button>
+                           <button class="uk-button uk-button-primary" type="button" uk-toggle="target: #modal-preview">Preview</button>
                         </div>
                      </form>
                   </div>
@@ -232,11 +232,6 @@ $selecteddomain = $rows['domain'];
                         <div class="custom-control custom-checkbox">
                            <input type="checkbox" class="custom-control-input" name="self_destruct_upload" <?php echo $self_destruct_upload; ?>>
                            <label class="custom-control-label" for="customCheck3">Self destruct upload</label>
-                        </div>
-                        <!-- USE EMBED -->
-                        <div class="custom-control custom-checkbox">
-                           <input type="checkbox" class="custom-control-input" name="use_embeds" <?php echo $useembed; ?>>
-                           <label class="custom-control-label" for="customCheck3">Use embed</label>
                         </div>
                         <button type="submit" class="uk-button uk-button-primary" name="button1" onclick="abfrage(this.form)" style="width: 100%;"><i class="fas fa-edit white-icon p-0"></i> Save
                         </button>
@@ -325,26 +320,68 @@ $selecteddomain = $rows['domain'];
             </div>
          </div>
       </div>
+      <div id="modal-preview" uk-modal>
+    <div class="uk-modal-dialog uk-modal-body">
+    <div class="uk-card-body">
+                     <div>
+                        <section class="uk-grid uk-grid-match" data-uk-grid-margin="">
+                           <div class="uk-width-medium-1-1">
+                              <div class="uk-panel uk-text-center">
+                                 <h3 class="uk-heading-line uk-text-center"><span>Embed preview</span></h3>
+                              </div>
+                           </div>
+                        </section>
+                     </div><br>
+
+                     <?php
+                     $date = date('Y-m-d');
+                     $embed = str_replace(
+                         '%username',
+                         $_SESSION['username'],
+                         $embed
+                     );
+                     $embed = str_replace('%filename', 'preview.png', $embed);
+                     $embed = str_replace('%filesize', '1.0MB', $embed);
+                     $embed = str_replace('%id', $id, $embed);
+                     $embed = str_replace('%date', $date, $embed);
+                     $embed = str_replace('%uploads', $uploads, $embed);
+                     ?>
+                     <div class="embed-body" id="e-color" style="border-left: 5px solid <?php echo $embed[
+                         'embedcolor'
+                     ]; ?>;">
+                            <span class="embed-author" id="e-author"><?php echo $embed[
+                                'embedauthor'
+                            ]; ?></span>
+                            <span class="embed-title" id="e-title"><?php echo $embed[
+                                'embedtitle'
+                            ]; ?></span>
+                            <span class="embed-desc" id="e-description"><?php echo $row[
+                                'embeddesc'
+                            ]; ?></span>
+                            <!-- <img src="https://imgur.com/yLIXHjk.png" class="embed-img" alt="Preview image"> -->
+                            <img src="https://helist.host/assets/img/helist-logo.png" class="embed-img" alt="Preview image">
+                        </div>
+                     <div>
+                  </div>
+    </div>
+</div>
    </body>
 
    <?php
+   if (isset($_POST['unlink'])) {
+       $sql = "UPDATE users SET discord_username = NULL, discord_id = NULL WHERE username = '$username'";
+       $result = mysqli_query($db, $sql);
+       if ($result) {
+           echo '<script>toastr.success("Succsessfully unlinked discord", "Success")</script>';
+       } else {
+           echo '<script>toastr.error("Failed to unlink discord", "Error")</script>';
+       }
 
-if (isset($_POST['unlink'])) {
-    $sql = "UPDATE users SET discord_username = NULL, discord_id = NULL WHERE username = '$username'";
-    $result = mysqli_query($db, $sql);
-    if ($result) {
-        echo '<script>toastr.success("Succsessfully unlinked discord", "Success")</script>';
-    } else {
-        echo '<script>toastr.error("Failed to unlink discord", "Error")</script>';
-    }
+       header('refresh:3;url=dashboard/settings');
+   }
 
-    header('refresh:3;url=dashboard/settings');
-
-}
-
-if (isset($_POST['config']))
-{
-    echo "
+   if (isset($_POST['config'])) {
+       echo "
     <head>
         <meta charset='UTF-8'>
         <meta name='viewport' content='width=device-width, initial-scale=1.0'>
@@ -361,12 +398,8 @@ if (isset($_POST['config']))
     a.setAttribute('href', window.URL.createObjectURL(blob));
     a.click();
     </script>";
-}
-else
-{
-}
-
-
+   } else {
+   }
 
    if (isset($_POST['getNewKey'])) {
        $newSecret = generateRandomInt(16);
@@ -434,14 +467,15 @@ else
    }
 
    if (isset($_GET['update'])) {
-       // if (isset($_POST['embedtitle']) && isset($_POST['embeddesc']) && isset($_POST['embedauthor']) && isset($_POST['embedtitle']) && isset($_POST['colorpicker'])) {
+    //    if (isset($_POST['embedtitle']) && isset($_POST['embeddesc']) && isset($_POST['embedauthor']) && isset($_POST['embedtitle']) && isset($_POST['colorpicker'])) {
        if (
            isset($_POST['embedtitle']) &&
            isset($_POST['embeddesc']) &&
            isset($_POST['embedauthor']) &&
            isset($_POST['colorpicker'])
-       ) {
-           //  $sql2 = "UPDATE users SET embedtitle='" . $_POST['embedtitle'] . "', embedauthor='" . $_POST['embedauthor'] . "', embedtitle='" . $_POST['embedtitle'] . "', embeddesc='" . $_POST['embeddesc'] . "', embedurl='" . $_POST['embedtitle'] . "', embedcolor='" . $_POST['colorpicker'] . "' WHERE username='" . $username . "';";
+       ) 
+       {
+        //    $sql2 = "UPDATE users SET embedtitle='" . $_POST['embedtitle'] . "', embedauthor='" . $_POST['embedauthor'] . "', embedtitle='" . $_POST['embedtitle'] . "', embeddesc='" . $_POST['embeddesc'] . "', embedurl='" . $_POST['embedtitle'] . "', embedcolor='" . $_POST['colorpicker'] . "' WHERE username='" . $username . "';";
            $sql2 =
                "UPDATE users SET embedtitle='" .
                $_POST['embedtitle'] .
@@ -694,6 +728,32 @@ else
       
            }
       }
+
+      function repl(s) 
+      {
+        return s.replace(/{file}/g, 'asyl-is-gay.png').replace(/{username}/g, "<?php echo $username?>").replace(/{uid}/g, "<?php echo $id ?>").replace(/{filename}/g, '1337').replace(/{size}/g, '13.37 KB').replace(/{ext}/g, 'png').replace(/{date}/g, '<?php echo date('m/d/Y'); ?>')
+    }
+
+    function updateAuthor(value) {
+        document.getElementById("e-author").innerHTML = repl(value);
+    }
+
+    function updateTitle(value) {
+        document.getElementById('e-title').innerHTML = repl(value);
+    }
+
+    function updateDescription(value) {
+        document.getElementById("e-description").innerHTML = repl(value);
+    }
+
+    function updateColor(value) {
+        document.getElementById("e-color").style.borderLeft = "5px solid " + value;
+    }
+
+    updateAuthor(document.getElementById('e-author').innerHTML);
+    updateTitle(document.getElementById('e-title').innerHTML);
+    updateDescription(document.getElementById('e-description').innerHTML);
+    updateColor(document.getElementById('e-color').innerHTML);
    </script>
 
 <script>
@@ -726,8 +786,8 @@ else
 }`;
 
           var filename = "helist.host-<?php echo $_SESSION[
-    'username'
-]; ?>.sxcu";
+              'username'
+          ]; ?>.sxcu";
           setTimeout(() => {
                download(filename, text);
           }, 1000)
