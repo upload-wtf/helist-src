@@ -373,8 +373,10 @@ $selecteddomain = $rows['domain'];
        $result = mysqli_query($db, $sql);
        if ($result) {
            echo '<script>toastr.success("Succsessfully unlinked discord", "Success")</script>';
+           echo "<meta http-equiv='Refresh' Content='2; url=../dashboard/settings'>"; 
        } else {
            echo '<script>toastr.error("Failed to unlink discord", "Error")</script>';
+           echo "<meta http-equiv='Refresh' Content='2; url=../dashboard/settings'>"; 
        }
 
        echo "<meta http-equiv='Refresh' Content='2; url=../dashboard/settings'>"; 
@@ -410,8 +412,10 @@ $selecteddomain = $rows['domain'];
        $result = mysqli_query($db, $sql);
        if ($result) {
            echo '<script>toastr.success("Succsessfully generated new secret", "Success")</script>';
+           echo "<meta http-equiv='Refresh' Content='2; url=../dashboard/settings'>"; 
        } else {
            echo '<script>toastr.error("Failed to generate new secret", "Error")</script>';
+           echo "<meta http-equiv='Refresh' Content='2; url=../dashboard/settings'>"; 
        }
 
        echo "<meta http-equiv='Refresh' Content='2; url=../dashboard/settings'>"; 
@@ -459,8 +463,10 @@ $selecteddomain = $rows['domain'];
 
        if ($result) {
            echo '<script>toastr.success("Succsessfully updated domain", "Success")</script>';
+           echo "<meta http-equiv='Refresh' Content='2; url=../dashboard/settings'>"; 
        } else {
            echo '<script>toastr.error("Failed to update domain", "Error")</script>';
+           echo "<meta http-equiv='Refresh' Content='2; url=../dashboard/settings'>"; 
        }
 
        echo "<meta http-equiv='Refresh' Content='2; url=../dashboard/settings'>"; 
@@ -490,8 +496,10 @@ if (isset($_POST["update-embed"])) {
     }
     if ($result2) {
         echo '<script>toastr.success("Succsessfully updated embed", "Success")</script>';
+        echo "<meta http-equiv='Refresh' Content='2; url=../dashboard/settings'>"; 
     } else {
         echo '<script>toastr.error("Failed to update embed", "Error")</script>';
+        echo "<meta http-equiv='Refresh' Content='2; url=../dashboard/settings'>"; 
     }
     echo "<meta http-equiv='Refresh' Content='2; url=../dashboard/settings'>"; 
 }
@@ -507,25 +515,9 @@ if (isset($_POST["update-embed"])) {
            $result3 = mysqli_query($db, $sql3);
        }
 
-       if (isset($_POST['use_embeds'])) {
-           $sql3 =
-               "UPDATE users SET use_embed='true' WHERE username='" .
-               $username .
-               "';";
-           $result3 = mysqli_query($db, $sql3);
-       }
-
        if (!isset($_POST['use_customdomain'])) {
            $sql3 =
                "UPDATE users SET use_customdomain='false' WHERE username='" .
-               $username .
-               "';";
-           $result3 = mysqli_query($db, $sql3);
-       }
-
-       if (!isset($_POST['use_embeds'])) {
-           $sql3 =
-               "UPDATE users SET use_embed='false' WHERE username='" .
                $username .
                "';";
            $result3 = mysqli_query($db, $sql3);
@@ -706,9 +698,11 @@ if (isset($_POST["update-embed"])) {
        }
 
        if ($result3) {
-           echo 'Settings updated';
+        echo '<script>toastr.success("Succsessfully updated preferences", "Success")</script>';
+           echo "<meta http-equiv='Refresh' Content='2; url=../dashboard/settings'>"; 
        } else {
-           echo 'Error updating settings';
+           echo '<script>toastr.error("Error updating preferences", "Error")</script>';
+           echo "<meta http-equiv='Refresh' Content='2; url=../dashboard/settings'>"; 
        }
 
        echo "<meta http-equiv='Refresh' Content='2; url=../dashboard/settings'>"; 

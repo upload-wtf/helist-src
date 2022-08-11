@@ -41,7 +41,6 @@ $use_customdomain = $user['use_customdomain'];
 $invisible_url = $user['use_invisible_url'];
 $emoji_url = $user['use_emoji_url'];
 $sus_url = $user['use_sus_url'];
-$shurk_url = $user['use_shurk_url'];
 $uuid = $user['uuid'];
 $uploadToDomain = $user['upload_domain'];
 $uploads = intval($user['uploads']) + 1;
@@ -140,7 +139,6 @@ if ($maintenance == "true") {
                         $destination = 'uploads/' . $uuid . '/' . $username . "/" . $hash;
                         if ($use_embed == "true") {
                             $hash_filename_emoji = generateRandomEmoji($hash_filename);
-                            $hash_filename_shurk = generateRandomShurk($hash_filename);
                             $hash_filename_sus = generateRandomSus($hash_filename);
                             $hash_filename = generateInvisible($hash_filename);
                             $fileurl = $protocol . DOMAIN . DIRECTORY . "uploads/$hash";
