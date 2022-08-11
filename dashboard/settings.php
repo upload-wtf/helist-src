@@ -149,7 +149,7 @@ $selecteddomain = $rows['domain'];
                         </section>
                      </div>
                      <center>Variables: %username, %filename, %filesize, %id, %date, %uploads</center>
-                     <form action="?update-embed" method="post" name="form" enctype="multipart/form-data">
+                     <form action="" method="post" name="form">
                         <div class="uk-form-row">
                            <label class="uk-form-label" for="embedauthor">Embed Author</label>
                            <input class="uk-input" type="text" name="embedauthor" id="embedauthor" value="<?php echo $embed[
@@ -182,7 +182,7 @@ $selecteddomain = $rows['domain'];
                         </div>
                         <br>
                         <div class="uk-form-row">
-                           <button class="uk-button uk-button-primary" type="submit" onclick="get(this.form)" name="button1">Update Embed</button>
+                           <button class="uk-button uk-button-primary" type="submit" name="update-embed">Update Embed</button>
                            <button class="uk-button uk-button-primary" type="button" uk-toggle="target: #modal-preview">Preview</button>
                         </div>
                      </form>
@@ -377,7 +377,7 @@ $selecteddomain = $rows['domain'];
            echo '<script>toastr.error("Failed to unlink discord", "Error")</script>';
        }
 
-       header('refresh:3;url=dashboard/settings');
+       header('refresh:2;url=dashboard/settings');
    }
 
    if (isset($_POST['config'])) {
@@ -463,44 +463,40 @@ $selecteddomain = $rows['domain'];
            echo '<script>toastr.error("Failed to update domain", "Error")</script>';
        }
 
-       header('refresh:3;url=dashboard/settings');
+       header('refresh:2;url=dashboard/settings');
    }
 
-   if (isset($_GET['update'])) {
-    //    if (isset($_POST['embedtitle']) && isset($_POST['embeddesc']) && isset($_POST['embedauthor']) && isset($_POST['embedtitle']) && isset($_POST['colorpicker'])) {
-       if (
-           isset($_POST['embedtitle']) &&
-           isset($_POST['embeddesc']) &&
-           isset($_POST['embedauthor']) &&
-           isset($_POST['colorpicker'])
-       ) 
-       {
-        //    $sql2 = "UPDATE users SET embedtitle='" . $_POST['embedtitle'] . "', embedauthor='" . $_POST['embedauthor'] . "', embedtitle='" . $_POST['embedtitle'] . "', embeddesc='" . $_POST['embeddesc'] . "', embedurl='" . $_POST['embedtitle'] . "', embedcolor='" . $_POST['colorpicker'] . "' WHERE username='" . $username . "';";
-           $sql2 =
-               "UPDATE users SET embedtitle='" .
-               $_POST['embedtitle'] .
-               "', embedauthor='" .
-               $_POST['embedauthor'] .
-               "', embedtitle='" .
-               $_POST['embedtitle'] .
-               "', embeddesc='" .
-               $_POST['embeddesc'] .
-               "', embedcolor='" .
-               $_POST['colorpicker'] .
-               "' WHERE username='" .
-               $username .
-               "';";
-           $result2 = mysqli_query($db, $sql2);
-       }
 
-       if ($result2) {
-           echo '<script>toastr.success("Succsessfully updated embed", "Success")</script>';
-       } else {
-           echo '<script>toastr.error("Failed to update embed", "Error")</script>';
-       }
+if (isset($_POST["update-embed"])) {
+    if (
+        isset($_POST['embedauthor']) &&
+        isset($_POST['embedtitle']) &&
+        isset($_POST['embeddesc']) &&
+        isset($_POST['colorpicker'])
+    ) {
+        $sql2 =
+            "UPDATE users SET embedauthor='" .
+            $_POST['embedauthor'] .
+            "', embedtitle='" .
+            $_POST['embedtitle'] .
+            "', embeddesc='" .
+            $_POST['embeddesc'] .
+            "', embedcolor='" .
+            $_POST['colorpicker'] .
+            "' WHERE username='" .
+            $username .
+            "';";
+        $result2 = mysqli_query($db, $sql2);
+    }
+    if ($result2) {
+        echo '<script>toastr.success("Succsessfully updated embed", "Success")</script>';
+    } else {
+        echo '<script>toastr.error("Failed to update embed", "Error")</script>';
+    }
+    header('refresh:2;url=dashboard/settings');
+}
 
-       header('refresh:3;url=dashboard/settings');
-   }
+
 
    if (isset($_GET['update-settings'])) {
        if (isset($_POST['use_customdomain'])) {
