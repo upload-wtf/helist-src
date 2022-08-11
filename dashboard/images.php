@@ -25,6 +25,7 @@ $sql = "SELECT * FROM users WHERE username = '$username'";
 $result = mysqli_query($db, $sql);
 $row = mysqli_fetch_assoc($result);
 $uuid = $row['uuid'];
+$admin = $row['admin'];
 ?>
 
 <!DOCTYPE html>
@@ -51,6 +52,9 @@ $uuid = $row['uuid'];
                     <li><a href="/dashboard">Home</a></li>
                     <li><a href="/dashboard/settings">Settings</a></li>
                     <li><a href="/dashboard/images" style="color: white">Images</a></li>
+                    <?php if ($admin == '1') { ?>
+                    <li><a href="/dashboard/admin">Admin</a></li>
+                    <?php } ?>
                     <li><a href="/dashboard/logout">Logout</a></li>
                 </ul>
             </div>

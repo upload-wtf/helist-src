@@ -81,6 +81,9 @@ $embed = mysqli_fetch_assoc($result);
                     <li><a href="/dashboard" style="color: white">Home</a></li>
                     <li><a href="/dashboard/settings">Settings</a></li>
                     <li><a href="/dashboard/images">Images</a></li>
+                    <?php if ($admin == '1') { ?>
+                    <li><a href="/dashboard/admin">Admin</a></li>
+                    <?php } ?>
                     <li><a href="/dashboard/logout">Logout</a></li>
                 </ul>
             </div>
