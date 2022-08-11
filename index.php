@@ -21,110 +21,6 @@ $username = '';
 $errors = [];
 $succeded = [];
 
-$sql = 'SELECT * FROM toggles';
-$result = mysqli_query($db, $sql);
-$rows = mysqli_num_rows($result);
-$invite_enable = $row['invites'];
-
-if (isset($_POST['reg'])) {
-    $username = mysqli_real_escape_string($db, $_POST['username']);
-    $password = mysqli_real_escape_string($db, $_POST['password']);
-    $c_password = mysqli_real_escape_string($db, $_POST['c_password']);
-    $key = mysqli_real_escape_string($db, $_POST['key']);
-    if (empty($username)) {
-        $errors = 'Username is required';
-    }
-    if (empty($password)) {
-        $errors = 'Password is required';
-    }
-    if (empty($key)) {
-        $errors = 'Invite code is requires';
-    }
-    if ($password != $c_password) {
-        $errors = 'Password do not match';
-    }
-
-    $user_check_query = "SELECT * FROM users WHERE username='$username' LIMIT 1";
-    $result = mysqli_query($db, $user_check_query);
-    $user = mysqli_fetch_assoc($result);
-
-    if ($user) {
-        if ($user['username'] == $username) {
-            $errors = 'Username already exists.';
-        } else {
-            $errors = 'Already registered.';
-        }
-    } else {
-    }
-    $query = "SELECT * FROM users WHERE invite='$key'";
-    $exquery = mysqli_query($db, $query);
-
-    if (mysqli_num_rows($exquery) > 0) {
-        $errors = 'Invite is already assigned to another Account.';
-    } else {
-        $regQuery = "SELECT * FROM `invites` WHERE `inviteCode`='$key';";
-        $regReq = mysqli_query($db, $regQuery);
-        $regResult = mysqli_fetch_assoc($regReq);
-        $inviter = $regResult['inviteAuthor'];
-        if ($regResult['inviteCode'] == $key) {
-            $delquery = "DELETE FROM `invites` WHERE `inviteCode` = '$key';";
-            mysqli_query($db, $delquery);
-            $ranPass = generateRandomInt(16);
-            date_default_timezone_set('Europe/Berlin');
-            $date = date('F d, Y h:i:s A');
-            if (count($errors) == 0) {
-                if (!file_exists('../uploads/' . $uuid)) {
-                    mkdir('../uploads/' . $uuid, 0777, true);
-                }
-                $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-                $query = "INSERT INTO users (id, uuid, username, password, banned, invite, secret, embedcolor, embedauthor, embedtitle, embeddesc, reg_date, use_embed, use_customdomain, self_destruct_upload, filename_type, url_type, uploads, upload_domain, discord_username, discord_id, inviter, last_uploaded, upload_limit, upload_size_limit, bio_background, avatar) VALUES (NULL, '$uuid', '$username', '$hashed_password', 'false', '$invite', '$ranPass', '#7f26d9', 'helist.host', '%filename (%filesize)', 'Uploaded by %username at %date', '$date', 'true', 'true', 'false', 'false', 'short', 'short', 0, 'helist.host', 'user#0000', '$inviter', '$date', '500 MB', '32 MB', 'https://helist.host/assets/images/banner.png	', 'https://helist.host/assets/images/avatar.png	');";
-                mysqli_query($db, $query);
-                header('location: /');
-            }
-        } else {
-            $errors = 'Invite is not valid.';
-        }
-    }
-}
-
-if (isset($_POST['login'])) {
-    $username = mysqli_real_escape_string($db, $_POST['username']);
-    $password = mysqli_real_escape_string($db, $_POST['password']);
-
-    $errors = '';
-
-    if (empty($username)) {
-        $errors = 'Username is required';
-    }
-    if (empty($password)) {
-        $errors = 'Password is required';
-    }
-
-    $user_check_query = "SELECT * FROM users WHERE username='$username' LIMIT 1";
-    $result = mysqli_query($db, $user_check_query);
-    $user = mysqli_fetch_assoc($result);
-
-    if ($user) {
-        if ($user['username'] == $username) {
-            if (password_verify($password, $user['password'])) {
-                session_start();
-                $_SESSION['loggedin'] = true;
-                $_SESSION['banned'] = $user['banned'];
-                $_SESSION['username'] = $username;
-                $_SESSION['uploads'] = $user['uploads'];
-
-                header('Location: ../index.php');
-            } else {
-                $errors = 'Password is incorrect';
-            }
-        } else {
-            $errors = 'Username is incorrect';
-        }
-    } else {
-        $errors = 'Username is incorrect';
-    }
-}
-
 $sql = 'SELECT * FROM users';
 $result = mysqli_query($db, $sql);
 $row = mysqli_fetch_assoc($result);
@@ -138,16 +34,6 @@ if (isset($_GET['invite'])) {
     if (mysqli_num_rows($result) > 0) {
         $_SESSION['inviteCode'] = $invitecode;
         $giftAuthor = $row['inviteAuthor'];
-        echo "<head>
-      <meta name='theme-color' content='#7f26d9'>
-      <meta name='og:site_name' content='https://helist.host/'>
-      <meta property='og:title' content='helist.host | Invite Code' />
-      <meta property=og:url content='https://helist.host/invite/$invitecode' />
-      <meta property='og:type' content='website' />
-      <meta property='og:description' content='$giftAuthor invited you to helist.host!'/>
-      <meta property='og:locale' content='en_GB'/>
-      <meta content='https://helist.host/images/invite.png' property='og:image'>
-      </head>";
         header('Location: https://helist.host/');
     } else {
         die('This invite does not exist!');

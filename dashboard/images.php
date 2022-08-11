@@ -136,12 +136,7 @@ if (isset($_GET['delete'])) {
 }
 
 if (isset($_POST['wipe-files'])) {
-    $files = glob("./uploads/$uuid/$username/*");
-    foreach ($files as $file) {
-        if (is_file($file)) {
-            unlink($file);
-        }
-    }
+    delete_files("../uploads/$uuid/$username");
     $sql = "UPDATE users SET uploads=0 WHERE username='$username';";
     $result = mysqli_query($db, $sql);
 
@@ -151,23 +146,24 @@ if (isset($_POST['wipe-files'])) {
 }
 
 if (isset($_POST['download-files'])) {
-    $files = glob("../uploads/$uuid/$username/*");
-    $zipname = "../uploads/$uuid/$username/files.zip";
-    $zip = new ZipArchive();
-    $zip->open($zipname, ZipArchive::CREATE);
-    foreach ($files as $file) {
-        if (is_file($file)) {
-            $zip->addFile($file);
+    $zip = new ZipArchive;
+    if ($zip->open($username . '_uploads.zip', ZipArchive::CREATE) === TRUE) {
+        if ($handle = opendir("../uploads/$uuid/$username")) {
+            while (false !== ($entry = readdir($handle))) {
+                if ($entry != "." && $entry != "..") {
+                    $zip->addFile("../uploads/$uuid/$username/$entry", $entry);
+                }
+            }
+            closedir($handle);
         }
+        $zip->close();
     }
-    $zip->close();
-
-    header('Content-Type: application/zip');
-    header('Content-disposition: attachment; filename=files.zip');
-    header('Content-Length: ' . filesize($zipname));
-    readfile($zipname);
-    unlink($zipname);
-    exit();
+    $file = $username . '_uploads.zip';
+    header("Content-Description: File Transfer"); 
+    header("Content-Type: application/octet-stream"); 
+    header("Content-Disposition: attachment; filename=\"". basename($file) ."\""); 
+    readfile ($file);
+    unlink($file);
 
     echo '<script>toastr.success("Files zipped", "Success")</script>';
 

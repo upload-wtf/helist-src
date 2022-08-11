@@ -17,7 +17,7 @@ $authorizeURL = 'https://discord.com/api/oauth2/authorize';
 $tokenURL = 'https://discord.com/api/oauth2/token';
 $apiURLBase = 'https://discord.com/api/users/@me';
 
-
+session_start();
 
 
 if (!isset($_SESSION['loggedin'])) {
