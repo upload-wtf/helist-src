@@ -110,7 +110,9 @@ $embed = mysqli_fetch_assoc($result);
                     <div class="uk-card uk-card-default uk-card-body">
                         <h3 class="uk-card-title">Storage used</h3>
                         <p><?php
-                        $totalfillessize = human_filesize(GetDirectorySize("../uploads/$uuid/$username"), 2); ?>
+                        $totalfillessize = human_filesize(GetDirectorySize("../uploads/$uuid/$username"), 2); 
+                        echo $totalfillessize;
+                        ?>
                         </p>
                     </div>
                 </div>
