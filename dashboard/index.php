@@ -26,6 +26,7 @@ $result = mysqli_query($db, $sql);
 $embed = mysqli_fetch_assoc($result);
 $avatar = $embed['avatar'];
 $id = $embed['id'];
+$uuid = $embed['uuid'];
 $regdate = $embed['reg_date'];
 $uploads = $embed['uploads'];
 $banner = $row['bio_background'];
