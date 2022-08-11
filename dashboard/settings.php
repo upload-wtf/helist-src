@@ -377,7 +377,7 @@ $selecteddomain = $rows['domain'];
            echo '<script>toastr.error("Failed to unlink discord", "Error")</script>';
        }
 
-       header('refresh:2;url=dashboard/settings');
+       echo "<meta http-equiv='Refresh' Content='2; url=../dashboard/settings'>"; 
    }
 
    if (isset($_POST['config'])) {
@@ -414,7 +414,7 @@ $selecteddomain = $rows['domain'];
            echo '<script>toastr.error("Failed to generate new secret", "Error")</script>';
        }
 
-       header('refresh:3;url=dashboard/settings');
+       echo "<meta http-equiv='Refresh' Content='2; url=../dashboard/settings'>"; 
    }
 
    if (isset($_POST['update-domain'])) {
@@ -463,7 +463,7 @@ $selecteddomain = $rows['domain'];
            echo '<script>toastr.error("Failed to update domain", "Error")</script>';
        }
 
-       header('refresh:2;url=dashboard/settings');
+       echo "<meta http-equiv='Refresh' Content='2; url=../dashboard/settings'>"; 
    }
 
 
@@ -493,7 +493,7 @@ if (isset($_POST["update-embed"])) {
     } else {
         echo '<script>toastr.error("Failed to update embed", "Error")</script>';
     }
-    header('refresh:2;url=dashboard/settings');
+    echo "<meta http-equiv='Refresh' Content='2; url=../dashboard/settings'>"; 
 }
 
 
@@ -711,7 +711,7 @@ if (isset($_POST["update-embed"])) {
            echo 'Error updating settings';
        }
 
-       header('refresh:3;url=dashboard/settings');
+       echo "<meta http-equiv='Refresh' Content='2; url=../dashboard/settings'>"; 
    }
    ?>
 
