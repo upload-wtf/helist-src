@@ -91,7 +91,7 @@ if (isset($_POST['invite-wave'])) {
         $row = mysqli_fetch_assoc($result);
         $inviteauthor = $row['username'];
         $invitecode =
-            ranCode(8) . '-' . ranCode(8) . '-' . ranCode(8) . '-' . ranCode(8);
+            ranCode(8) . '-' . ranCode(8);
         $sql =
             "INSERT INTO `invites`(`id`, `inviteCode`, `inviteAuthor`) VALUES (NULL, '" .
             $invitecode .
