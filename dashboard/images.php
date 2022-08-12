@@ -143,6 +143,9 @@ if (isset($_POST['wipe-files'])) {
     delete_files("../uploads/$uuid/$username");
     $sql = "UPDATE users SET uploads=0 WHERE username='$username';";
     $result = mysqli_query($db, $sql);
+    $sql = "DELETE FROM uploads WHERE username='$username';";
+    $result = mysqli_query($db, $sql);
+
 
     echo '<script>toastr.success("Files wiped", "Success")</script>';
 
