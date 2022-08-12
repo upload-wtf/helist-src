@@ -6,7 +6,7 @@ include "./src/database.php";
 include "./src/config.php";
 include "./src/functions.php";
 
-require_once './src/vendor/autoload.php';
+#require_once './src/vendor/autoload.php';
 
 // use PalePurple\RateLimit\RateLimit;
 // use PalePurple\RateLimit\Adapter\APC as APCAdapter;
