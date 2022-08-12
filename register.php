@@ -82,7 +82,7 @@ if (isset($_GET['invite'])) {
                                     <input type="text" name="key" placeholder="Invite" value="<?php echo $_SESSION["inviteCode"]; ?>" required >
                                     <input type="submit" name="reg">
                                 </p><br>
-                                <p><span style="opacity:50%;"> Don't have an account?</span> <a href="/register">Register</a></p>
+                                <p><span style="opacity:50%;"> Already an account?</span> <a href="/login">Login</a></p>
                             </form>
                         </div>
                     </div>
