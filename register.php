@@ -19,6 +19,7 @@ include "./src/functions.php";
 
 // $rateLimit = new RateLimit('login_ratelimit', 3, 30, $adapter);
 
+session_start();
 
 if (isset($_GET['invite'])) {
     $invitecode = $_GET['invite'];

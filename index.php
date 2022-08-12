@@ -26,19 +26,6 @@ $result = mysqli_query($db, $sql);
 $row = mysqli_fetch_assoc($result);
 $avatar = $row['avatar'];
 
-if (isset($_GET['invite'])) {
-    $invitecode = $_GET['invite'];
-    $invite = "SELECT * FROM `invites` WHERE `inviteCode`='$invitecode'";
-    $result = mysqli_query($db, $invite);
-    $row = mysqli_fetch_assoc($result);
-    if (mysqli_num_rows($result) > 0) {
-        $_SESSION['inviteCode'] = $invitecode;
-        $giftAuthor = $row['inviteAuthor'];
-        header('Location: https://helist.host/');
-    } else {
-        die('This invite does not exist!');
-    }
-}
 
 $protocol =
     isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off'
