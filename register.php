@@ -18,6 +18,23 @@ require_once './src/vendor/autoload.php';
 // $adapter = new APCAdapter();
 
 // $rateLimit = new RateLimit('login_ratelimit', 3, 30, $adapter);
+
+
+if (isset($_GET['invite'])) {
+    $invitecode = $_GET['invite'];
+    $invite = "SELECT * FROM `invites` WHERE `inviteCode`='$invitecode'";
+    $result = mysqli_query($db, $invite);
+    $row = mysqli_fetch_assoc($result);
+    if (mysqli_num_rows($result) > 0) {
+        $_SESSION['inviteCode'] = $invitecode;
+        $giftAuthor = $row['inviteAuthor'];
+        header('Location: https://helist.host/register');
+    } else {
+        die('This invite does not exist!');
+    }
+}
+
+
 ?>
 
 
@@ -61,7 +78,7 @@ require_once './src/vendor/autoload.php';
                                     <input type="text" name="email" placeholder="Email" required >
                                     <input type="password" name="password" placeholder="Password" required>
                                     <input type="password" name="c_password" placeholder="Repeat password" required>
-                                    <input type="text" name="key" placeholder="Invite" required >
+                                    <input type="text" name="key" placeholder="Invite" value="<?php echo $_SESSION["inviteCode"]; ?>" required >
                                     <input type="submit" name="reg">
                                 </p><br>
                                 <p><span style="opacity:50%;"> Don't have an account?</span> <a href="/register">Register</a></p>

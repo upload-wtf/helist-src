@@ -1,8 +1,8 @@
 <?php
 
-include "../src/database.php";
-include "../src/config.php";
-include "../src/functions.php";
+include '../src/database.php';
+include '../src/config.php';
+include '../src/functions.php';
 
 session_start();
 
@@ -115,7 +115,10 @@ $embed = mysqli_fetch_assoc($result);
                     <div class="uk-card uk-card-default uk-card-body">
                         <h3 class="uk-card-title">Storage used</h3>
                         <p><?php
-                        $totalfillessize = human_filesize(GetDirectorySize("../uploads/$uuid/$username"), 2); 
+                        $totalfillessize = human_filesize(
+                            GetDirectorySize("../uploads/$uuid/$username"),
+                            2
+                        );
                         echo $totalfillessize;
                         ?>
                         </p>
@@ -224,17 +227,22 @@ $embed = mysqli_fetch_assoc($result);
         $sql = "SELECT * FROM invites WHERE inviteAuthor = '$username'";
         $result = mysqli_query($db, $sql);
         $resultCheck = mysqli_num_rows($result);
-        if($resultCheck < 1) {
+        if ($resultCheck < 1) {
             echo '<p>You have no invites</p>';
         } else {
-            while($row = mysqli_fetch_assoc($result)) {
-                echo '<div class="uk-margin">';
-                echo '<div class="uk-inline">';
-                echo '<span class="uk-form-icon" uk-icon="icon: world"></span>';
-                echo '<input class="uk-input" type="text" value="'.$row['inviteLink'].'" readonly>';
-                echo '</div>';
-                echo '</div>';
-            }
+            while ($row = mysqli_fetch_assoc($result)) { ?>
+
+<div class="uk-margin">
+<div class="uk-inline">
+<span onclick="copy_code('https://helist.host/invite/<?php echo $row[
+    'inviteCode'
+]; ?>')">
+<a href="#" class="uk-list-item"><?php echo $row['inviteCode']; ?></a>
+</span>
+</div>
+</div>
+
+                <?php }
         }
         ?>
 
@@ -243,6 +251,22 @@ $embed = mysqli_fetch_assoc($result);
     </div>
     </div>
 </body>
+
+<script>
+
+function copy_code(code) {
+    navigator.clipboard.writeText(code);
+    toastr.success("Invite copied to the clipboard", "Success")
+    $("#copy-invite-p").text("Ivite code copied");
+}
+$(".discount-box").mouseleave(function() {
+    setTimeout(
+        function() {
+            $("#copy-invite-p").text("Click to copy code");
+        }, 150);
+});
+</script>
+
 <script>
 function success(title,message){
 toastr.options = {
