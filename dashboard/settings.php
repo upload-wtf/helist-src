@@ -326,46 +326,46 @@ $selecteddomain = $rows['domain'];
       <div id="modal-preview" uk-modal>
     <div class="uk-modal-dialog uk-modal-body">
     <div class="uk-card-body">
-                     <div>
-                        <section class="uk-grid uk-grid-match" data-uk-grid-margin="">
-                           <div class="uk-width-medium-1-1">
-                              <div class="uk-panel uk-text-center">
-                                 <h3 class="uk-heading-line uk-text-center"><span>Embed preview</span></h3>
-                              </div>
-                           </div>
-                        </section>
-                     </div><br>
+        <div>
+        <section class="uk-grid uk-grid-match" data-uk-grid-margin="">
+            <div class="uk-width-medium-1-1">
+                <div class="uk-panel uk-text-center">
+                    <h3 class="uk-heading-line uk-text-center"><span>Embed preview</span></h3>
+                </div>
+            </div>
+        </section>
+        </div><br>
 
-                     <?php
-                     $date = date('Y-m-d');
-                     $embed = str_replace(
-                         '%username',
-                         $_SESSION['username'],
-                         $embed
-                     );
-                     $embed = str_replace('%filename', 'preview.png', $embed);
-                     $embed = str_replace('%filesize', '1.0MB', $embed);
-                     $embed = str_replace('%id', $id, $embed);
-                     $embed = str_replace('%date', $date, $embed);
-                     $embed = str_replace('%uploads', $uploads, $embed);
-                     ?>
-                     <div class="embed-body" id="e-color" style="border-left: 5px solid <?php echo $embed[
-                         'embedcolor'
-                     ]; ?>;">
-                            <span class="embed-author" id="e-author"><?php echo $embed[
-                                'embedauthor'
-                            ]; ?></span>
-                            <span class="embed-title" id="e-title"><?php echo $embed[
-                                'embedtitle'
-                            ]; ?></span>
-                            <span class="embed-desc" id="e-description"><?php echo $row[
-                                'embeddesc'
-                            ]; ?></span>
-                            <!-- <img src="https://imgur.com/yLIXHjk.png" class="embed-img" alt="Preview image"> -->
-                            <img src="https://helist.host/assets/img/helist-logo.png" class="embed-img" alt="Preview image">
-                        </div>
-                     <div>
-                  </div>
+        <?php
+        $date = date('Y-m-d');
+        $embed = str_replace(
+            '%username',
+            $_SESSION['username'],
+            $embed
+        );
+        $embed = str_replace('%filename', 'preview.png', $embed);
+        $embed = str_replace('%filesize', '1.0MB', $embed);
+        $embed = str_replace('%id', $id, $embed);
+        $embed = str_replace('%date', $date, $embed);
+        $embed = str_replace('%uploads', $uploads, $embed);
+        ?>
+        <div class="embed-body" id="e-color" style="border-left: 5px solid <?php echo $embed[
+            'embedcolor'
+        ]; ?>;">
+            <span class="embed-author" id="e-author"><?php echo $embed[
+                'embedauthor'
+            ]; ?></span>
+            <span class="embed-title" id="e-title"><?php echo $embed[
+                'embedtitle'
+            ]; ?></span>
+            <span class="embed-desc" id="e-description"><?php echo $row[
+                'embeddesc'
+            ]; ?></span>
+            <!-- <img src="https://imgur.com/yLIXHjk.png" class="embed-img" alt="Preview image"> -->
+            <img src="https://helist.host/assets/img/helist-logo.png" class="embed-img" alt="Preview image">
+        </div>
+        <div>
+    </div>
     </div>
 </div>
    </body>

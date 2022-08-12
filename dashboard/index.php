@@ -81,6 +81,7 @@ $embed = mysqli_fetch_assoc($result);
                     <li><a href="/dashboard" style="color: white">Home</a></li>
                     <li><a href="/dashboard/settings">Settings</a></li>
                     <li><a href="/dashboard/images">Images</a></li>
+                    <li><a href="#modal-invites" uk-toggle>Invites</a></li>
                     <?php if ($admin == '1') { ?>
                     <li><a href="/dashboard/admin">Admin</a></li>
                     <?php } ?>
@@ -206,6 +207,40 @@ $embed = mysqli_fetch_assoc($result);
                </div>
             </div>
         </div>
+    </div>
+    <div id="modal-invites" uk-modal>
+    <div class="uk-modal-dialog uk-modal-body">
+    <div class="uk-card-body">
+        <div>
+        <section class="uk-grid uk-grid-match" data-uk-grid-margin="">
+            <div class="uk-width-medium-1-1">
+                <div class="uk-panel uk-text-center">
+                    <h3 class="uk-heading-line uk-text-center"><span>Invites</span></h3>
+                </div>
+            </div>
+        </section>
+        </div><br>
+        <?php
+        $sql = "SELECT * FROM invites WHERE inviteAuthor = '$username'";
+        $result = mysqli_query($db, $sql);
+        $resultCheck = mysqli_num_rows($result);
+        if($resultCheck < 1) {
+            echo '<p>You have no invites</p>';
+        } else {
+            while($row = mysqli_fetch_assoc($result)) {
+                echo '<div class="uk-margin">';
+                echo '<div class="uk-inline">';
+                echo '<span class="uk-form-icon" uk-icon="icon: world"></span>';
+                echo '<input class="uk-input" type="text" value="'.$row['inviteLink'].'" readonly>';
+                echo '</div>';
+                echo '</div>';
+            }
+        }
+        ?>
+
+        </div>
+        <div>
+    </div>
     </div>
 </body>
 <script>
