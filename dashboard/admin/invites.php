@@ -1,8 +1,8 @@
 <?php
 
-include "../../src/database.php";
-include "../../src/config.php";
-include "../../src/functions.php";
+include '../../src/database.php';
+include '../../src/config.php';
+include '../../src/functions.php';
 
 session_start();
 
@@ -25,7 +25,6 @@ if ($row['admin'] == 0) {
 if ($row['banned'] == 'true') {
     header('location: /logout');
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -84,55 +83,53 @@ if ($row['banned'] == 'true') {
 </body>
 
 <?php
-
-if(isset($_POST["invite-wave"])) {
-
-$sql = "SELECT * FROM users";
-$result = mysqli_query($db, $sql);
-$rows = mysqli_num_rows($result);
-
-for($i = 0; $i < $rows; $i++) {
-     $row = mysqli_fetch_assoc($result);
-     $user = $row['username'];
-     $invitecode = ranCode(8) . "-" . ranCode(8);
-     $sql = "INSERT INTO `invites`(`id`, `inviteCode`, `inviteAuthor`) VALUES (NULL, '" . $invitecode . "', '" . $user . "');";
-     $result = mysqli_query($db, $sql);
-     if ($result) {
-          echo "<script>
+if (isset($_POST['invite-wave'])) {
+    $sqll = 'SELECT * FROM `users`';
+    $result = mysqli_query($db, $sqll);
+    $rows = mysqli_num_rows($result);
+    for ($i = 0; $i < $rows; $i++) {
+        $row = mysqli_fetch_assoc($result);
+        $inviteauthor = $row['username'];
+        $invitecode =
+            ranCode(8) . '-' . ranCode(8) . '-' . ranCode(8) . '-' . ranCode(8);
+        $sql =
+            "INSERT INTO `invites`(`id`, `inviteCode`, `inviteAuthor`) VALUES (NULL, '" .
+            $invitecode .
+            "', '" .
+            $inviteauthor .
+            "');";
+        mysqli_query($db, $sql);
+        if ($result) {
+            echo "<script>
           toastr.success('Invite wave generated', 'Success');
           </script>";
-          echo "<meta http-equiv='Refresh' Content='2; url=../admin/settings'>";
-     } else {
-          echo "<script>
+            echo "<meta http-equiv='Refresh' Content='2; url=../admin/invites'>";
+        } else {
+            echo "<script>
           toastr.error('Error', 'Error');
           </script>";
-          echo "<meta http-equiv='Refresh' Content='2; url=../admin/settings'>";
-     }
-     echo "<meta http-equiv='Refresh' Content='2; url=../admin/users'>";
+            echo "<meta http-equiv='Refresh' Content='2; url=../admin/invites'>";
+        }
+        echo "<meta http-equiv='Refresh' Content='2; url=../admin/invites'>";
+    }
 }
 
-}
-
-if(isset($_POST["delete-invs"])) {
-    
-$sql = "DELETE FROM invites";
-$result = mysqli_query($db, $sql);
-if ($result) {
-     echo "<script>
+if (isset($_POST['delete-invs'])) {
+    $sql = 'DELETE FROM invites';
+    $result = mysqli_query($db, $sql);
+    if ($result) {
+        echo "<script>
      toastr.success('Invites deleted', 'Success');
      </script>";
-     echo "<meta http-equiv='Refresh' Content='2; url=../admin/settings'>";
-} else {
-     echo "<script>
+        echo "<meta http-equiv='Refresh' Content='2; url=../admin/invites'>";
+    } else {
+        echo "<script>
      toastr.error('Error', 'Error');
      </script>";
-     echo "<meta http-equiv='Refresh' Content='2; url=../admin/settings'>";
+        echo "<meta http-equiv='Refresh' Content='2; url=../admin/invites'>";
+    }
+    echo "<meta http-equiv='Refresh' Content='2; url=../admin/invites'>";
 }
-echo "<meta http-equiv='Refresh' Content='2; url=../admin/users'>";
-}
-
-
-
 ?>
 
 <script>
