@@ -93,9 +93,9 @@ $rows = mysqli_num_rows($result);
 
 for($i = 0; $i < $rows; $i++) {
      $row = mysqli_fetch_assoc($result);
-     $username = $row['username'];
+     $user = $row['username'];
      $invitecode = ranCode(8) . "-" . ranCode(8);
-     $sql = "INSERT INTO `invites`(`id`, `inviteCode`, `inviteAuthor`) VALUES (NULL, '" . $invitecode . "', '" . $inviteauthor . "');";
+     $sql = "INSERT INTO `invites`(`id`, `inviteCode`, `inviteAuthor`) VALUES (NULL, '" . $invitecode . "', '" . $user . "');";
      $result = mysqli_query($db, $sql);
      if ($result) {
           echo "<script>
