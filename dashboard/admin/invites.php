@@ -50,9 +50,9 @@ if ($row['banned'] == 'true') {
                 <a href="/" class="uk-navbar-item uk-logo"><img src="https://helist.host/assets/img/helist-logo.png" alt="Logo" style="height: 2em; -moz-user-select: none;" draggable="false"></a>
                 <ul class="uk-navbar-nav">
                     <li><a href="../">Home</a></li>
-                    <li><a href="/dashboard/admin/" style="color: white">Admin Home</a></li>
+                    <li><a href="/dashboard/admin/" >Admin Home</a></li>
                     <li><a href="/dashboard/admin/users">Users</a></li>
-                    <li><a href="/dashboard/admin/invites">Invites</a></li>
+                    <li><a href="/dashboard/admin/invites" style="color: white">Invites</a></li>
                 </ul>
             </div>
         </nav>
@@ -68,70 +68,73 @@ if ($row['banned'] == 'true') {
             </div>
         </section>
     </div><br>
-        <div class="uk-container">
-            <div class="uk-grid-small uk-child-width-1-1 uk-child-width-1-2@s uk-child-width-1-3@m" uk-grid>
-                <div>
-                    <div class="uk-card uk-card-default uk-card-body">
-                        <h3 class="uk-card-title">Total Uploads</h3>
-                        <p>
-                            <?php $sql = "SELECT COUNT(*) FROM uploads;"; $result = mysqli_query($db, $sql); $row = mysqli_fetch_assoc($result); echo $row['COUNT(*)']; ?>
-                        </p>
-                    </div>
-                </div>
-                <div>
-                    <div class="uk-card uk-card-default uk-card-body">
-                        <h3 class="uk-card-title">Total Users</h3>
-                        <p>
-                            <?php $sql = "SELECT COUNT(*) FROM users;"; $result = mysqli_query($db, $sql); $row = mysqli_fetch_assoc($result); echo $row['COUNT(*)']; ?>
-                        </p>
-                    </div>
-                </div>
-                <div>
-                    <div class="uk-card uk-card-default uk-card-body">
-                        <h3 class="uk-card-title">Used space</h3>
-                        <p>
-                            <?php 
-                            $totalfillessize = human_filesize(GetDirectorySize("../../uploads/"), 2);
-                            echo $totalfillessize;
-                            ?>
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div><br>
 
-        <div class="uk-container">
-            <div class="uk-grid-small uk-child-width-1-1 uk-child-width-1-2@s uk-child-width-1-3@m" uk-grid>
-                <div>
-                    <div class="uk-card uk-card-default uk-card-body">
-                        <h3 class="uk-card-title">Last registered user</h3>
-                        <p>
-                        <?php $sql = "SELECT * FROM users ORDER BY id DESC LIMIT 1;"; $result = mysqli_query($db, $sql); $row = mysqli_fetch_assoc($result); echo $row['username']; ?>
-                        </p>
-                    </div>
-                </div>
-                <div>
-                    <div class="uk-card uk-card-default uk-card-body">
-                        <h3 class="uk-card-title">Total invites</h3>
-                        <p>
-                        <?php $sql = "SELECT COUNT(*) FROM invites;"; $result = mysqli_query($db, $sql); $row = mysqli_fetch_assoc($result); echo $row['COUNT(*)']; ?>
-                        </p>
-                    </div>
-                </div>
-                <div>
-                    <div class="uk-card uk-card-default uk-card-body">
-                        <h3 class="uk-card-title">Daily uploads</h3>
-                        <p>
-                           228
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div><br>
-
+    <div class="uk-container uk-margin-top">
+          <div class="uk-card uk-card-default uk-card-body">
+               <h3 class="uk-card-title">Images</h3>
+               <p>
+                    <form method="POST" action="">
+                    <button type="submit" name="invite-wave" class="uk-button uk-button-primary">Invite Wave</button>
+                    <button type="submit" name="delete-invs" class="uk-button uk-button-primary">Delete invites</button>
+                    </form>
+               </p>
+          </div>
 
     </div>
 </body>
+
+<?php
+
+if(isset($_POST["invite-wave"])) {
+
+$sql = "SELECT * FROM users";
+$result = mysqli_query($db, $sql);
+$rows = mysqli_num_rows($result);
+
+for($i = 0; $i < $rows; $i++) {
+     $row = mysqli_fetch_assoc($result);
+     $username = $row['username'];
+     $invitecode = ranCode(8) . "-" . ranCode(8);
+     $sql = "INSERT INTO `invites`(`id`, `inviteCode`, `inviteAuthor`) VALUES (NULL, '" . $invitecode . "', '" . $inviteauthor . "');";
+     $result = mysqli_query($db, $sql);
+     if ($result) {
+          echo "<script>
+          toastr.success('Invite wave generated', 'Success');
+          </script>";
+          echo "<meta http-equiv='Refresh' Content='2; url=../admin/settings'>";
+     } else {
+          echo "<script>
+          toastr.error('Error', 'Error');
+          </script>";
+          echo "<meta http-equiv='Refresh' Content='2; url=../admin/settings'>";
+     }
+     echo "<meta http-equiv='Refresh' Content='2; url=../admin/users'>";
+}
+
+}
+
+if(isset($_POST["delete-invs"])) {
+    
+$sql = "DELETE FROM invites";
+$result = mysqli_query($db, $sql);
+if ($result) {
+     echo "<script>
+     toastr.success('Invites deleted', 'Success');
+     </script>";
+     echo "<meta http-equiv='Refresh' Content='2; url=../admin/settings'>";
+} else {
+     echo "<script>
+     toastr.error('Error', 'Error');
+     </script>";
+     echo "<meta http-equiv='Refresh' Content='2; url=../admin/settings'>";
+}
+echo "<meta http-equiv='Refresh' Content='2; url=../admin/users'>";
+}
+
+
+
+?>
+
 <script>
 function success(title,message){
 toastr.options = {

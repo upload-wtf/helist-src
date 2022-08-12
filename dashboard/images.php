@@ -134,7 +134,7 @@ if (isset($_GET['delete'])) {
 
             echo '<script>toastr.success("File deleted", "Success")</script>';
 
-            header('refresh:3;url=dashboard/images');
+            echo "<meta http-equiv='Refresh' Content='2; url=../dashboard/images'>"; 
         }
     }
 }
@@ -146,7 +146,7 @@ if (isset($_POST['wipe-files'])) {
 
     echo '<script>toastr.success("Files wiped", "Success")</script>';
 
-    header('refresh:3;url=dashboard/images');
+    echo "<meta http-equiv='Refresh' Content='2; url=../dashboard/images'>"; 
 }
 
 if (isset($_POST['download-files'])) {
@@ -171,7 +171,7 @@ if (isset($_POST['download-files'])) {
 
     echo '<script>toastr.success("Files zipped", "Success")</script>';
 
-    header('refresh:3;url=dashboard/images');
+    echo "<meta http-equiv='Refresh' Content='2; url=../dashboard/images'>"; 
 }
 ?>
 
