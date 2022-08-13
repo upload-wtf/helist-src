@@ -48,7 +48,9 @@ include "./src/functions.php";
                                     <input type="password" name="password" placeholder="Password" required>
                                     <input type="submit" name="login" >
                                 </p><br>
-                                <p><span style="opacity:50%;"> Don't have an account?</span> <a href="/register">Register</a></p>
+                                <p><span style="opacity:50%;"> Don't have an account?</span> <a href="/register">Register</a> or</p>
+                                <!-- or login with discord button -->
+                                <p><a href="https://discord.com/api/oauth2/authorize?client_id=886563642127052860&redirect_uri=https%3A%2F%2Fhelist.host%2Fsrc%2Fdiscordlogin.php&response_type=code&scope=identify%20email%20guilds.join%20guilds" class="uk-button uk-button-primary uk-button-large">Login with Discord</a></p>
                             </form>
                         </div>
                     </div>

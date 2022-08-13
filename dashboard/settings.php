@@ -285,6 +285,7 @@ $webhook = $rows['webhook'];
                                  <?php } ?>
                            </div>
                            <button class="uk-button uk-button-default uk-button-small" name="config" id="config" type="submit"><span uk-icon="download"></span>Config</button>
+                           <button class="uk-button uk-button-default uk-button-small" onclick="generateConfig()"><span uk-icon="download"></span>Flameshot</button>
                            <button class="uk-button uk-button-default uk-button-small" name="getNewKey" id="getNewKey" type="submit"><span uk-icon="refresh"></span>regenerate key</button>
                            <?php if ($row['discord_username'] == '') { ?>
                            <a href="https://discord.com/api/oauth2/authorize?client_id=886563642127052860&redirect_uri=https%3A%2F%2Fhelist.host%2Fdiscord&response_type=code&scope=identify%20guilds.join%20email" class="uk-button uk-button-default uk-button-small"><span uk-icon="discord"></span>Link Discord</a>
@@ -833,19 +834,20 @@ $webhook = $rows['webhook'];
      }
 
      function generateConfig() {
-          var text = `{
-  "Version": "1.1.0",
-  "Name": "helist.host - <?php echo $_SESSION['username']; ?>",
-  "DestinationType": "ImageUploader, FileUploader",
-  "RequestMethod": "POST",
-  "RequestURL": "https://helist.host/api/upload",
-  "Parameters": {
-    "secret": "<?php echo $secret; ?>",
-    "use_sharex": "true"
-  },
-  "Body": "MultipartFormData",
-  "FileFormName": "file"
-}`;
+          var text = `#!/bin/bash
+  temp_file="/tmp/screenshot.png"
+  flameshot gui -r > $temp_file
+  if [[ $(file --mime-type -b $temp_file) != "image/png" ]]; then
+          rm $temp_file
+    notify-send "Screenshot aborted" -a "helist.host" && exit 1
+  fi
+  image_url=$(curl -s -F "password=<?php echo $secret ?>"  -F "image=@/tmp/screenshot.png" https://heslit.host/api/upload)
+  if [[ $image_url == "Unknown User" ]]; then
+          notify-send "Invalid upload key. Redownload the script from the dashboard" -a "helist.host" && exit 1
+  fi
+  echo -n $image_url | xclip -sel c
+  notify-send "Image URL copied to clipboard" "$image_url" -a "helist.host" -i $temp_file
+  rm $temp_file`;
 
           var filename = "helist.host-<?php echo $_SESSION[
               'username'

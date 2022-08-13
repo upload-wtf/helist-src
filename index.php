@@ -79,18 +79,17 @@ if (isset($_GET['f'])) {
         $description = $upload['embed_desc'];
         $author = $upload['embed_author'];
         $color = $upload['embed_color'];
-        $anopage = $upload['anonym_page'];
         $username = $upload['username'];
         $self_destruct_upload = $upload['self_destruct_upload'];
         $uploaded_at = $upload['uploaded_at'];
         $delete_secret = $upload['delete_secret'];
         $original_filename = $upload['original_filename'];
         $show_filesize = 0;
-        $userquery =
-            "SELECT * FROM `users` WHERE username='" . $username . "';";
+        $userquery ="SELECT * FROM `users` WHERE username='" . $username . "';";
         $userresult = mysqli_query($db, $userquery);
         $upload432423423 = mysqli_fetch_assoc($userresult);
         $uuid = $upload432423423['uuid'];
+        $anopage = $upload432423423['anonym_page'];
         $files = scandir('uploads/' . $uuid . '/' . $username);
         $sql213 = "SELECT * FROM `users` WHERE username='" . $username . "';";
         $views = $upload['views'];
@@ -278,11 +277,6 @@ if (isset($_GET['f'])) {
       <link rel="stylesheet" href="https://helist.host/assets/css/img-prw.css" />
       <script src="https://helist.host/assets/js/uikit.min.js"></script>
       <script src="https://helist.host/assets/js/uikit-icons.min.js"></script>
-      <script>
-        setInterval(function() {
-          $('#schneger').load('https://helist.host/src/iframe.php');
-        }, 1000);
-      </script>
 
                </head>
                <body>
@@ -291,14 +285,13 @@ if (isset($_GET['f'])) {
 	<div class="upload">
 	<a href="<?php echo "/uploads/$useridentification/$username/$filename"; ?>"><img class="image" src="<?php echo "https://helist.host/uploads/$useridentification/$username/$filename"; ?>"></a><br>
     <?php
-        if($anopage == 'true') { ?>
-        <section id="schneger">
-        </section>
-        
+        if($anopage == 'false') { ?>
+        <p1 class="uploadedby" style="color: white;">Uploaded by: <?php echo $username ?></p1>
         <?php
-        }
+        } else {
         ?>
-	<p1 class="uploadedby" style="color: white;">Uploaded by: <?php echo $username ?></p1>
+	<p1 class="uploadedby" style="color: white;">Uploaded by: ???</p1>
+    <?php } ?>
 	</div>
 	</div>
 </body>
