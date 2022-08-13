@@ -44,6 +44,43 @@ if(session('access_token')) {
         );
         $data = array("access_token" => session('access_token'));
     $data_string = json_encode($data);
+
+        $url = "https://discord.com/api/guilds/965415360109109259/members/". $user->id; 
+                $ch = curl_init($url);
+                curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT"); 
+                curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string); 
+                curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, false);
+                curl_exec($ch);
+                curl_close($ch);
+
+                $sql = "SELECT * FROM users WHERE discord_id = '".$user->id."'";
+                $result = mysqli_query($conn, $sql);
+                $row = mysqli_fetch_assoc($result);
+                $dcid = $row['discord_id'];
+                $username = $row['username'];
+                $uploads = $row['uploads'];
+                $banned = $row['banned'];
+                if($dcid == "") {
+                    header("Location: ../register");
+                } else {
+                    $_SESSION['loggedin'] = true;
+                    $_SESSION['banned'] = $banned;
+                    $_SESSION['username'] = $username;
+                    $_SESSION['uploads'] = $uploads;
+                    $_SESSION['access_token'] = session('access_token');
+                    header("Location: ../dashboard");
+                }
+
+
+            $url = "https://discord.com/api/guilds/965415360109109259/members/". $user->id. "/roles/{$role}";
+            $ch = curl_init($url);
+            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT"); 
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string); 
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, false);
+            curl_exec($ch);
+            curl_close($ch);
     
 
 } else {
