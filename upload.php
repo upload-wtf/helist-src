@@ -358,11 +358,6 @@ if ($maintenance == "true") {
                                         "fields" => [
                                             [
                                                 "name" => "Filename",
-                                                "value" => "$hash_filename",
-                                                "inline" => true
-                                            ],
-                                            [
-                                                "name" => "Original Filename",
                                                 "value" => "$original_filename",
                                                 "inline" => true
                                             ],
