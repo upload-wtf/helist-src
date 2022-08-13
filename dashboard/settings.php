@@ -97,6 +97,7 @@ $result = mysqli_query($db, $sql);
 $rows = mysqli_fetch_assoc($result);
 $subdomain = $rows['subdomain'];
 $selecteddomain = $rows['domain'];
+$webhook = $rows['webhook'];
 ?>
 <!DOCTYPE html>
 <html>
@@ -392,7 +393,7 @@ $selecteddomain = $rows['domain'];
         <div class="uk-margin">
             <div class="uk-inline">
                 <span class="uk-form-icon" uk-icon="icon: link"></span>
-                <input class="uk-input" type="text" name="webhook" placeholder="Discord Webhook">
+                <input class="uk-input" type="text" name="webhook" value="<?php echo $webhook ?>" placeholder="Discord Webhook">
             </div>
         </div>
         <div class="uk-margin">

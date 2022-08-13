@@ -335,6 +335,7 @@ if ($maintenance == "true") {
 
                                 $json_data = json_encode([
                                     "username" => "$username | Logs",
+                                    "avatar_url" => "https://helist.host/assets/img/preview.png",
                                     "tts" => false,
 
                                     "embeds" => [[
