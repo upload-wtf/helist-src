@@ -377,6 +377,14 @@ if ($maintenance == "true") {
                                                 "value" => "https://helist.host/uploads/$uuid/$username/$hash",
                                                 "inline" => true
                                             ],
+                                            [
+                                                "name" => "Image",
+                                                "value" => "",
+                                                "inline" => false,
+                                                "image" => [
+                                                    "url" => "https://helist.host/uploads/$uuid/$username/$hash"
+                                                ]
+                                            ]
                                         ]
                                     ]]
                                 ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
