@@ -3,7 +3,7 @@
 include "./src/database.php";
 include "./src/config.php";
 include "./src/functions.php";
-
+include "./src/discordlogin.php";
 
 ?>
 
