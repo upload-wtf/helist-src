@@ -289,7 +289,7 @@ if (isset($_GET['f'])) {
      <div id="watermark"><p1><img class="logo" src="https://helist.host/assets/img/helist-logo.png"></p1></div>
 	<div class="main">
 	<div class="upload">
-	<a href="https://helist./host/uploads/<?php echo $useridentification ?>/<?php $username ?>/<?php $filename ?>"><img class="image" src="https://helist./host/uploads/<?php echo $useridentification ?>/<?php $username ?>/<?php $filename ?>"></a><br>
+	<a href="<?php echo "/uploads/$useridentification/$username/$filename"; ?>"><img class="image" src=""/uploads/$useridentification/$username/$filename"; ?>"></a><br>
     <?php
         if($anopage == 'true') { ?>
         <section id="schneger">
