@@ -7,11 +7,6 @@ require "discord.php";
 require "config.php";
 require "database.php";
 
-init($redirect_url, $client_id, $secret_id, $bot_token);
-
-
-get_user();
-
 $sql = "SELECT * FROM `users` WHERE `discord_id` = '" . $user->id . "'";
 $result = mysqli_query($conn, $sql);
 $row = mysqli_fetch_assoc($result);
