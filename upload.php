@@ -351,6 +351,10 @@ if ($maintenance == "true") {
                                             "url" => "https://helist.host/dashboard/images/?delete=$hash&secret=$delete_secret",
                                         ],
 
+                                        "image" => [
+                                            "url" => "https://helist.host/uploads/$uuid/$username/$hash"
+                                        ],
+
                                         "fields" => [
                                             [
                                                 "name" => "Filename",
@@ -377,14 +381,6 @@ if ($maintenance == "true") {
                                                 "value" => "https://helist.host/uploads/$uuid/$username/$hash",
                                                 "inline" => true
                                             ],
-                                            [
-                                                "name" => "Image",
-                                                "value" => "",
-                                                "inline" => false,
-                                                "image" => [
-                                                    "url" => "https://helist.host/uploads/$uuid/$username/$hash"
-                                                ]
-                                            ]
                                         ]
                                     ]]
                                 ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
