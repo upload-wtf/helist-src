@@ -46,6 +46,7 @@ $uploadToDomain = $user['upload_domain'];
 $uploads = intval($user['uploads']) + 1;
 $filename_type = $user['filename_type'];
 $url_type = $user['url_type'];
+$webhook = $user['webhook'];
 $last_uploaded = $user['last_uploaded'];
 $banned = $user['banned'];
 $upload_limit = $user['upload_limit'];
@@ -328,6 +329,71 @@ if ($maintenance == "true") {
                             $query54 = "INSERT INTO `uploads` (`id`, `userid`, `username`, `filename`, `hash_filename`, `original_filename`, `filesize`, `delete_secret`, `self_destruct_upload`, `embed_color`, `embed_author`, `embed_title`, `embed_desc`,`uploaded_at`) VALUES (NULL,'" . $userid . "', '" . $username . "', '" . $hash . "', '$hash_filename_db', '" . $original_filename . "', '" . $filesize . "', '" . $delete_secret . "', '" . $self_destruct_upload . "', '" . $emcolor . "', '" . $emauthor . "', '" . $emtitle . "', '" . $emdesc . "', '" . $date . "');";
                             $result54 = mysqli_query($db, $query54);
                             $filesize = human_filesize(filesize('uploads/' . $uuid . '/' . $username . "/" . $hash), 2);
+
+                            if(!empty($webhook)) {
+                                $wurl = $webhook;
+
+                                $json_data = json_encode([
+                                    "username" => "$username | Logs",
+                                    "tts" => false,
+
+                                    "embeds" => [[
+                                        "type" => "rich",
+                                        "url" => "https://helist.host/" . $hash,
+                                        "color" => hexdec(str_replace("#", "", $emcolor)),
+                                        "footer" => [
+                                            "text" => "https://helist.host/uploads/$uuid/$username/$hash"
+                                        ],
+
+                                        "author" => [
+                                            "name" => "$username [Press to Delete]",
+                                            "url" => "https://helist.host/dashboard/images/?delete=$hash&secret=$delete_secret",
+                                        ],
+
+                                        "fields" => [
+                                            [
+                                                "name" => "Filename",
+                                                "value" => "$hash_filename",
+                                                "inline" => true
+                                            ],
+                                            [
+                                                "name" => "Original Filename",
+                                                "value" => "$original_filename",
+                                                "inline" => true
+                                            ],
+                                            [
+                                                "name" => "Filesize",
+                                                "value" => "$filesize",
+                                                "inline" => true
+                                            ],
+                                            [
+                                                "name" => "Uploaded At",
+                                                "value" => "$date",
+                                                "inline" => true
+                                            ],
+                                            [
+                                                "name" => "URL",
+                                                "value" => "https://helist.host/uploads/$uuid/$username/$hash",
+                                                "inline" => true
+                                            ],
+                                        ]
+                                    ]]
+                                ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+                                $ch = curl_init($wurl);
+                                curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+                                    'Content-type: application/json'
+                                ));
+                                curl_setopt($ch, CURLOPT_POST, 1);
+                                curl_setopt($ch, CURLOPT_POSTFIELDS, $json_data);
+                                curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+                                curl_setopt($ch, CURLOPT_HEADER, 0);
+                                curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+
+                                $response = curl_exec($ch);
+                                curl_close($ch);
+                            }
+
+
                         } else {
                             $hash_filename_emoji = generateRandomEmoji($hash_filename);
                             $hash_filename = generateInvisible($hash_filename);

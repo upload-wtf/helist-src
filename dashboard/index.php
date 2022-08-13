@@ -162,8 +162,20 @@ $embed = mysqli_fetch_assoc($result);
                         </div>
                      </form>
                   </div>
+                  <div class="test-upload uk-placeholder uk-text-center">
+            <span uk-icon="icon: cloud-upload"></span>
+            <form action="https://helist.host/api/upload" enctype="multipart/form-data" id="schneeger" method="POST">
+            <span class="uk-text-middle" id="uploadbutton">Attach file by dropping them here or</span>
+            <div uk-form-custom>
+            <input type="file" multiple>
+            <span class="uk-link" id="uploadbutton">selecting one</span>
+            </div>
+            </div>
+<progress id="progressbar" class="uk-progress" value="0" max="100" hidden></progress>
+                    </form>
                </div>
             </div>
+
             <div>
                <div class="uk-border-rounded uk-card uk-card-default uk-card-small">
                   <div class="uk-card-body">
@@ -251,7 +263,48 @@ $embed = mysqli_fetch_assoc($result);
     </div>
     </div>
 </body>
+<script>
+(function ($) {
+    var bar = $("#progressbar")[0];
+    UIkit.upload('.test-upload', {
+        url: '',
+        multiple: true,
+        beforeSend: function() { console.log('beforeSend', arguments); },
+        beforeAll: function() { console.log('beforeAll', arguments); },
+        load: function() { console.log('load', arguments); },
+        error: function() { console.log('error', arguments); },
+        complete: function() { console.log('complete', arguments); },
+        loadStart: function (e) {
+            console.log('loadStart', arguments);
+            bar.removeAttribute('hidden');
+            bar.max =  e.total;
+            bar.value =  e.loaded;
+        },
+        progress: function (e) {
+            console.log('progress', arguments);
+            bar.max =  e.total;
+            bar.value =  e.loaded;
+        },
+        loadEnd: function (e) {
+            console.log('loadEnd', arguments);
+            bar.max =  e.total;
+            bar.value =  e.loaded;
+        },
+        completeAll: function () {
+            console.log('completeAll', arguments);
+            setTimeout(function () {
+                bar.setAttribute('hidden', 'hidden');
+            }, 1000);
+            toastr.success('Upload complete', 'Success');
+        },
 
+        // document ready upload helist.host/api/upload?secret=<?php echo $secret; ?>&use_sharex=true
+        $(docuement)
+
+    });
+})(jQuery);
+
+</script>
 <script>
 
 function copy_code(code) {

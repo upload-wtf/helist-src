@@ -45,6 +45,7 @@ if (isset($_GET['f'])) {
         $description = $upload['embed_desc'];
         $author = $upload['embed_author'];
         $color = $upload['embed_color'];
+        $url = $upload['embed_url'];
         $username = $upload['username'];
         $self_destruct_upload = $upload['self_destruct_upload'];
         $uploaded_at = $upload['uploaded_at'];
@@ -78,6 +79,7 @@ if (isset($_GET['f'])) {
         $description = $upload['embed_desc'];
         $author = $upload['embed_author'];
         $color = $upload['embed_color'];
+        $anopage = $upload['anonym_page'];
         $username = $upload['username'];
         $self_destruct_upload = $upload['self_destruct_upload'];
         $uploaded_at = $upload['uploaded_at'];
@@ -158,6 +160,7 @@ if (isset($_GET['f'])) {
 
                     <meta property="og:site_name" content="<?php echo $author; ?>">
                     <meta property="og:title" content="<?php echo $title; ?>">
+                    <meta property="og:url" content="<?php echo $url ?>">
 
                     <!-- PNG -->
                     <?php if (

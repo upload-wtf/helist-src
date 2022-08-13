@@ -4,18 +4,7 @@ include "./src/database.php";
 include "./src/config.php";
 include "./src/functions.php";
 
-#require_once './src/vendor/autoload.php';
 
-// use PalePurple\RateLimit\RateLimit;
-// use PalePurple\RateLimit\Adapter\APC as APCAdapter;
-// use PalePurple\RateLimit\Adapter\Redis as RedisAdapter;
-// use PalePurple\RateLimit\Adapter\Predis as PredisAdapter;
-// use PalePurple\RateLimit\Adapter\Memcached as MemcachedAdapter;
-// use PalePurple\RateLimit\Adapter\Stash as StashAdapter;
-
-// $adapter = new APCAdapter();
-
-// $rateLimit = new RateLimit('login_ratelimit', 3, 30, $adapter);
 ?>
 
 <!DOCTYPE html>
@@ -98,7 +87,7 @@ include "./src/functions.php";
 
                 echo '<script>toastr.success("You are now logged in", "Success")</script>';
 
-                header('refresh:3;url=/dashboard');
+                header('refresh:2;url=/dashboard');
             } else {
                 echo '<script>toastr.error("Wrong password or username", "Error")</script>';
             }

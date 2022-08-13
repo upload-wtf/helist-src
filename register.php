@@ -6,18 +6,6 @@ include "./src/database.php";
 include "./src/config.php";
 include "./src/functions.php";
 
-#require_once './src/vendor/autoload.php';
-
-// use PalePurple\RateLimit\RateLimit;
-// use PalePurple\RateLimit\Adapter\APC as APCAdapter;
-// use PalePurple\RateLimit\Adapter\Redis as RedisAdapter;
-// use PalePurple\RateLimit\Adapter\Predis as PredisAdapter;
-// use PalePurple\RateLimit\Adapter\Memcached as MemcachedAdapter;
-// use PalePurple\RateLimit\Adapter\Stash as StashAdapter;
-
-// $adapter = new APCAdapter();
-
-// $rateLimit = new RateLimit('login_ratelimit', 3, 30, $adapter);
 
 session_start();
 
@@ -34,6 +22,10 @@ if (isset($_GET['invite'])) {
         die('This invite does not exist!');
     }
 }
+
+$username = "";
+$errors = array();
+$succeded = array();
 
 
 ?>
@@ -76,7 +68,6 @@ if (isset($_GET['invite'])) {
                         <div class="uk-container uk-margin-medium-top credentials">
                             <form method="POST" action="">
                                 <p><input type="text" name="username" placeholder="Username" required >
-                                    <input type="text" name="email" placeholder="Email" required >
                                     <input type="password" name="password" placeholder="Password" required>
                                     <input type="password" name="c_password" placeholder="Repeat password" required>
                                     <input type="text" name="key" placeholder="Invite" value="<?php echo $_SESSION["inviteCode"]; ?>" required >
@@ -96,23 +87,23 @@ if (isset($_GET['invite'])) {
     $username = mysqli_real_escape_string($db, $_POST['username']);
     $password = mysqli_real_escape_string($db, $_POST['password']);
     $c_password = mysqli_real_escape_string($db, $_POST['c_password']);
-    $email = mysqli_real_escape_string($db, $_POST['email']);
     define('EMAIL', mysqli_real_escape_string($db, $_POST['email']));
     $key = mysqli_real_escape_string($db, $_POST['key']);
     if (empty($username)) {
         echo '<script>toastr.error("Username is required");</script>';
+        $error = "Username is required";
     }
     if (empty($password)) {
         echo '<script>toastr.error("Password is required");</script>';
+        $error = "Password is required";
     }
     if (empty($key)) {
         echo '<script>toastr.error("Invite is required");</script>';
+        $error = "Invite is required";
     }
     if ($password != $c_password) {
         echo '<script>toastr.error("Passwords do not match");</script>';
-    }
-    if (empty($email)) {
-        echo '<script>toastr.error("Email is required");</script>';
+        $error = "Passwords do not match";
     }
     // if ($rateLimit->check($id)) {
     $user_check_query = "SELECT * FROM users WHERE username='$username' LIMIT 1";
@@ -148,12 +139,12 @@ if (isset($_GET['invite'])) {
                     mkdir('uploads/' . $uuid, 0777, true);
                 }
                 $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-                $query = "INSERT INTO users (id, uuid, username, password, email, secret, inviter) VALUES (NULL, '$uuid', '$username', '$hashed_password', '$email', '$ranPass', '$inviter');";
+                $query = "INSERT INTO users (id, uuid, username, password, banned, invite, secret) VALUES (NULL, '$uuid', '$username', '$hashed_password', 'false', '$inviter', '$ranPass');";
                 mysqli_query($db, $query);
 
                 echo '<script><script>toastr.success("Successfully completed register! Please login.", "Success")</script></script>';
 
-                header('refresh:3;url=/login');
+                header('/login');
             }
         } else {
             echo '<script><script>toastr.error("Invite code is invalid.", "Error")</script></script>';

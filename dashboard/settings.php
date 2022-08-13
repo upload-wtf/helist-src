@@ -44,6 +44,12 @@ if ($embed['self_destruct_upload'] == 'true') {
     $self_destruct_upload = 'false';
 }
 
+if($embed['anonym_page'] == 'true') {
+    $anonym_page = 'checked';
+} else {
+    $anonym_page = 'false';
+}
+
 if ($embed['use_emoji_url'] == 'true') {
     $emoji_url = 'checked';
 } else {
@@ -165,12 +171,12 @@ $selecteddomain = $rows['domain'];
                                'embedtitle'
                            ]; ?>" onkeyup="updateTitle(this.value)" onkeydown="updateTitle(this.value)" onchange="updateTitle(this.value)" onpaste="updateTitle(this.value)" oninput="updateTitle(this.value)"/>
                         </div>
-                        <!-- <div class="uk-form-row">
+                        <div class="uk-form-row">
                            <label class="uk-form-label" for="titleurl">Embed Title URL</label>
                            <input class="uk-input" type="text" name="titleurl" id="titleurl" value="<?php echo $embed[
                                'embedurl'
                            ]; ?>" />
-                           </div> -->
+                           </div>
                         <div class="uk-form-row">
                            <label class="uk-form-label" for="embeddesc">Embed Description</label>
                            <input class="uk-input" type="text" name="embeddesc" id="embeddescription" value="<?php echo $row[
@@ -187,6 +193,7 @@ $selecteddomain = $rows['domain'];
                         <div class="uk-form-row">
                            <button class="uk-button uk-button-primary" type="submit" name="update-embed">Update Embed</button>
                            <button class="uk-button uk-button-primary" type="button" uk-toggle="target: #modal-preview">Preview</button>
+                           <button class="uk-button uk-button-primary" type="button" uk-toggle="target: #modal-webhook">Webhook logs</button>
                         </div>
                      </form>
                   </div>
@@ -235,6 +242,11 @@ $selecteddomain = $rows['domain'];
                         <div class="custom-control custom-checkbox">
                            <input type="checkbox" class="custom-control-input" name="self_destruct_upload" <?php echo $self_destruct_upload; ?>>
                            <label class="custom-control-label" for="customCheck3">Self destruct upload</label>
+                        </div>
+                        <!-- ANONYM UPLOAD PAGE -->
+                        <div class="custom-control custom-checkbox">
+                           <input type="checkbox" class="custom-control-input" name="anonym_upload" <?php echo $anonym_page; ?>>
+                           <label class="custom-control-label" for="customCheck3">Anonym upload</label>
                         </div>
                         <button type="submit" class="uk-button uk-button-primary" name="button1" onclick="abfrage(this.form)" style="width: 100%;"><i class="fas fa-edit white-icon p-0"></i> Save
                         </button>
@@ -338,11 +350,7 @@ $selecteddomain = $rows['domain'];
 
         <?php
         $date = date('Y-m-d');
-        $embed = str_replace(
-            '%username',
-            $_SESSION['username'],
-            $embed
-        );
+        $embed = str_replace('%username', $_SESSION['username'], $embed);
         $embed = str_replace('%filename', 'preview.png', $embed);
         $embed = str_replace('%filesize', '1.0MB', $embed);
         $embed = str_replace('%id', $id, $embed);
@@ -367,6 +375,33 @@ $selecteddomain = $rows['domain'];
         <div>
     </div>
     </div>
+
+    <div id="modal-webhook" uk-modal>
+    <div class="uk-modal-dialog uk-modal-body">
+    <div class="uk-card-body">
+        <div>
+        <section class="uk-grid uk-grid-match" data-uk-grid-margin="">
+            <div class="uk-width-medium-1-1">
+                <div class="uk-panel uk-text-center">
+                    <h3 class="uk-heading-line uk-text-center"><span>Webhook logs</span></h3>
+                </div>
+            </div>
+        </section>
+        </div><br>
+        <form action="" method="POST">
+        <div class="uk-margin">
+            <div class="uk-inline">
+                <span class="uk-form-icon" uk-icon="icon: link"></span>
+                <input class="uk-input" type="text" name="webhook" placeholder="Discord Webhook">
+            </div>
+        </div>
+        <div class="uk-margin">
+            <button class="uk-button uk-button-primary" type="submit" name="set_webhook">Submit</button>
+        </div>
+        </form>
+        <div>
+    </div>
+    </div>
 </div>
    </body>
 
@@ -376,13 +411,13 @@ $selecteddomain = $rows['domain'];
        $result = mysqli_query($db, $sql);
        if ($result) {
            echo '<script>toastr.success("Succsessfully unlinked discord", "Success")</script>';
-           echo "<meta http-equiv='Refresh' Content='2; url=../dashboard/settings'>"; 
+           echo "<meta http-equiv='Refresh' Content='2; url=../dashboard/settings'>";
        } else {
            echo '<script>toastr.error("Failed to unlink discord", "Error")</script>';
-           echo "<meta http-equiv='Refresh' Content='2; url=../dashboard/settings'>"; 
+           echo "<meta http-equiv='Refresh' Content='2; url=../dashboard/settings'>";
        }
 
-       echo "<meta http-equiv='Refresh' Content='2; url=../dashboard/settings'>"; 
+       echo "<meta http-equiv='Refresh' Content='2; url=../dashboard/settings'>";
    }
 
    if (isset($_POST['config'])) {
@@ -406,6 +441,21 @@ $selecteddomain = $rows['domain'];
    } else {
    }
 
+   if(isset($_POST['set_webhook'])) {
+    $webhook = $_POST['webhook'];
+    $sql = "UPDATE users SET webhook='$webhook' WHERE username='$username'";
+    $result = mysqli_query($db, $sql);
+    if($result) {
+        echo '<script>toastr.success("Succsessfully added webhook. Remove webhook to disable!", "Success")</script>';
+        echo "<meta http-equiv='Refresh' Content='2; url=../dashboard/settings'>";
+    } else {
+        echo '<script>toastr.error("Failed to update webhook", "Error")</script>';
+        echo "<meta http-equiv='Refresh' Content='2; url=../dashboard/settings'>";
+    }
+    echo "<meta http-equiv='Refresh' Content='2; url=../dashboard/settings'>";
+
+}
+
    if (isset($_POST['getNewKey'])) {
        $newSecret = generateRandomInt(16);
        $sql =
@@ -415,13 +465,13 @@ $selecteddomain = $rows['domain'];
        $result = mysqli_query($db, $sql);
        if ($result) {
            echo '<script>toastr.success("Succsessfully generated new secret", "Success")</script>';
-           echo "<meta http-equiv='Refresh' Content='2; url=../dashboard/settings'>"; 
+           echo "<meta http-equiv='Refresh' Content='2; url=../dashboard/settings'>";
        } else {
            echo '<script>toastr.error("Failed to generate new secret", "Error")</script>';
-           echo "<meta http-equiv='Refresh' Content='2; url=../dashboard/settings'>"; 
+           echo "<meta http-equiv='Refresh' Content='2; url=../dashboard/settings'>";
        }
 
-       echo "<meta http-equiv='Refresh' Content='2; url=../dashboard/settings'>"; 
+       echo "<meta http-equiv='Refresh' Content='2; url=../dashboard/settings'>";
    }
 
    if (isset($_POST['update-domain'])) {
@@ -466,48 +516,48 @@ $selecteddomain = $rows['domain'];
 
        if ($result) {
            echo '<script>toastr.success("Succsessfully updated domain", "Success")</script>';
-           echo "<meta http-equiv='Refresh' Content='2; url=../dashboard/settings'>"; 
+           echo "<meta http-equiv='Refresh' Content='2; url=../dashboard/settings'>";
        } else {
            echo '<script>toastr.error("Failed to update domain", "Error")</script>';
-           echo "<meta http-equiv='Refresh' Content='2; url=../dashboard/settings'>"; 
+           echo "<meta http-equiv='Refresh' Content='2; url=../dashboard/settings'>";
        }
 
-       echo "<meta http-equiv='Refresh' Content='2; url=../dashboard/settings'>"; 
+       echo "<meta http-equiv='Refresh' Content='2; url=../dashboard/settings'>";
    }
 
-
-if (isset($_POST["update-embed"])) {
-    if (
-        isset($_POST['embedauthor']) &&
-        isset($_POST['embedtitle']) &&
-        isset($_POST['embeddesc']) &&
-        isset($_POST['colorpicker'])
-    ) {
-        $sql2 =
-            "UPDATE users SET embedauthor='" .
-            $_POST['embedauthor'] .
-            "', embedtitle='" .
-            $_POST['embedtitle'] .
-            "', embeddesc='" .
-            $_POST['embeddesc'] .
-            "', embedcolor='" .
-            $_POST['colorpicker'] .
-            "' WHERE username='" .
-            $username .
-            "';";
-        $result2 = mysqli_query($db, $sql2);
-    }
-    if ($result2) {
-        echo '<script>toastr.success("Succsessfully updated embed", "Success")</script>';
-        echo "<meta http-equiv='Refresh' Content='2; url=../dashboard/settings'>"; 
-    } else {
-        echo '<script>toastr.error("Failed to update embed", "Error")</script>';
-        echo "<meta http-equiv='Refresh' Content='2; url=../dashboard/settings'>"; 
-    }
-    echo "<meta http-equiv='Refresh' Content='2; url=../dashboard/settings'>"; 
-}
-
-
+   if (isset($_POST['update-embed'])) {
+       if (
+           isset($_POST['embedauthor']) &&
+           isset($_POST['embedtitle']) &&
+           isset($_POST['embeddesc']) &&
+           isset($_POST['titleurl']) &&
+           isset($_POST['colorpicker'])
+       ) {
+           $sql2 =
+               "UPDATE users SET embedauthor='" .
+               $_POST['embedauthor'] .
+               "', embedtitle='" .
+               $_POST['embedtitle'] .
+               "', embeddesc='" .
+               $_POST['embeddesc'] .
+               "', embedurl='" .
+               $_POST['titleurl'] .
+               "', embedcolor='" .
+               $_POST['colorpicker'] .
+               "' WHERE username='" .
+               $username .
+               "';";
+           $result2 = mysqli_query($db, $sql2);
+       }
+       if ($result2) {
+           echo '<script>toastr.success("Succsessfully updated embed", "Success")</script>';
+           echo "<meta http-equiv='Refresh' Content='2; url=../dashboard/settings'>";
+       } else {
+           echo '<script>toastr.error("Failed to update embed", "Error")</script>';
+           echo "<meta http-equiv='Refresh' Content='2; url=../dashboard/settings'>";
+       }
+       echo "<meta http-equiv='Refresh' Content='2; url=../dashboard/settings'>";
+   }
 
    if (isset($_GET['update-settings'])) {
        if (isset($_POST['use_customdomain'])) {
@@ -525,6 +575,22 @@ if (isset($_POST["update-embed"])) {
                "';";
            $result3 = mysqli_query($db, $sql3);
        }
+
+       if (isset($_POST['anonym_upload'])) {
+        $sql3 =
+            "UPDATE users SET anonym_page='true' WHERE username='" .
+            $username .
+            "';";
+        $result3 = mysqli_query($db, $sql3);
+    }
+
+    if (!isset($_POST['anonym_upload'])) {
+        $sql3 =
+            "UPDATE users SET anonym_page='false' WHERE username='" .
+            $username .
+            "';";
+        $result3 = mysqli_query($db, $sql3);
+    }
 
        if (isset($_POST['filename_type'])) {
            $sql3 =
@@ -701,14 +767,14 @@ if (isset($_POST["update-embed"])) {
        }
 
        if ($result3) {
-        echo '<script>toastr.success("Succsessfully updated preferences", "Success")</script>';
-           echo "<meta http-equiv='Refresh' Content='2; url=../dashboard/settings'>"; 
+           echo '<script>toastr.success("Succsessfully updated preferences", "Success")</script>';
+           echo "<meta http-equiv='Refresh' Content='2; url=../dashboard/settings'>";
        } else {
            echo '<script>toastr.error("Error updating preferences", "Error")</script>';
-           echo "<meta http-equiv='Refresh' Content='2; url=../dashboard/settings'>"; 
+           echo "<meta http-equiv='Refresh' Content='2; url=../dashboard/settings'>";
        }
 
-       echo "<meta http-equiv='Refresh' Content='2; url=../dashboard/settings'>"; 
+       echo "<meta http-equiv='Refresh' Content='2; url=../dashboard/settings'>";
    }
    ?>
 
@@ -724,7 +790,9 @@ if (isset($_POST["update-embed"])) {
 
       function repl(s) 
       {
-        return s.replace(/{file}/g, 'asyl-is-gay.png').replace(/{username}/g, "<?php echo $username?>").replace(/{uid}/g, "<?php echo $id ?>").replace(/{filename}/g, '1337').replace(/{size}/g, '13.37 KB').replace(/{ext}/g, 'png').replace(/{date}/g, '<?php echo date('m/d/Y'); ?>')
+        return s.replace(/{file}/g, 'asyl-is-gay.png').replace(/{username}/g, "<?php echo $username; ?>").replace(/{uid}/g, "<?php echo $id; ?>").replace(/{filename}/g, '1337').replace(/{size}/g, '13.37 KB').replace(/{ext}/g, 'png').replace(/{date}/g, '<?php echo date(
+    'm/d/Y'
+); ?>')
     }
 
     function updateAuthor(value) {
