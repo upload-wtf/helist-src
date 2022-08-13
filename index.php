@@ -273,52 +273,34 @@ if (isset($_GET['f'])) {
 
 
                </head>
-
-               <style>
-        html {
-            height: 100%
-        }
-
-        body {
-            height: 100%;
-            background: rgba(14, 14, 16);
-            color: rgba(247, 247, 247);
-            font-size: 15px;
-            text-align: center;
-            display: flex;
-            justify-content: safe center;
-            align-items: safe center;
-            width: 95%;
-            max-width: 100%;
-            margin: 0 auto
-        }
-
-        .image {
-            max-width: 100vh;
-            max-height: 150vh
-        }
-    </style>
-
+               <link rel="stylesheet" href="https://https://helist.host/assets/css/uikit.min.css" />
+      <link rel="stylesheet" href="https://helist.host/assets/css/style.css" />
+      <link rel="stylesheet" href="https://helist.host/assets/css/img-prw.css" />
+      <script src="https://helist.host/assets/js/uikit.min.js"></script>
+      <script src="https://helist.host/assets/js/uikit-icons.min.js"></script>
+      <script>
+        setInterval(function() {
+          $('#schneger').load('https://helist.host/src/iframe.php');
+        }, 1000);
+      </script>
 
                </head>
-
                <body>
-    <a href="<?php echo "/uploads/$useridentification/$username/$filename"; ?>">
-        <?php if ($type == 'mp4' || $type == 'webm' || $type == 'mov') { ?>
-            <video width="500px" controls>
-                <source src="<?php echo "/uploads/$useridentification/$username/$filename"; ?>" type="video/mp4">
-                Your browser does not support HTML video.
-            </video>
-        <?php } ?>
-        <?php if (
-            $type == 'png' ||
-            $type == 'jpeg' ||
-            $type == 'jpg' ||
-            $type == 'gif'
-        ) { ?>
-            <img src="<?php echo "/uploads/$useridentification/$username/$filename"; ?>" class="image">
-        <?php } ?>
-    </a>
+     <div id="watermark"><p1><img class="logo" src="https://helist.host/assets/img/helist-logo.png"></p1></div>
+	<div class="main">
+	<div class="upload">
+	<a href="https://helist./host/uploads/<?php echo $useridentification ?>/<?php $username ?>/<?php $filename ?>"><img class="image" src="https://helist./host/uploads/<?php echo $useridentification ?>/<?php $username ?>/<?php $filename ?>"></a><br>
+    <?php
+        if($anopage == 'true') { ?>
+        <section id="schneger">
+        </section>
+        
+        <?php
+        }
+        ?>
+	<p1 class="uploadedby" style="color: white;">Uploaded by: <?php echo $username ?></p1>
+	</div>
+	</div>
 </body>
 
      <?php
@@ -344,8 +326,7 @@ if (isset($_GET['f'])) {
     <title>helist.host</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="helist.host image host">
-    <meta property="og:image" content="https://helist.host/assets/img/helist-logo.png">
-    <!-- <meta name="twitter:image" content="https://helist.host/assets/img/helist-logo.png"> -->
+    <meta name="twitter:image" content="https://helist.host/assets/img/helist-logo.png">
     <meta property="twitter:card" content="summary_large_image">
     <meta name="theme-color" content="282828">
     <meta charset="utf-8">
