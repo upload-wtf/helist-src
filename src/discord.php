@@ -25,7 +25,7 @@ if(get('code')) {
     "grant_type" => "authorization_code",
     'client_id' => OAUTH2_CLIENT_ID,
     'client_secret' => OAUTH2_CLIENT_SECRET,
-    'redirect_uri' => 'https://helist.host/src/dclogin.php',
+    'redirect_uri' => 'https://helist.host/src/discord.php',
     'code' => get('code')
   ));
   $logout_token = $token->access_token;
