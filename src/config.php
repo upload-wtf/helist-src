@@ -29,10 +29,3 @@ define('KEYWORDS', "upload.systems, pays.host, sharex, image uploader, tesla.sex
 define('SERVICE_NAME', "helist.host");
 define('SERVICE_VERSION', "1.0.0");
 define('SERVICE_DESCRIPTION', "Private & secure Image hoster ");
-
-// DISCORD LOGIN
-$client_id = "886563642127052860";
-$secret_id = "9aitXFPxjKvgi_955HjxEdi1xcXCmai4";
-$scopes = "identify";
-$redirect_url = "https://helist.host/src/dclogin.php";
-$bot_token = null;

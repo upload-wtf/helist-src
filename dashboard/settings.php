@@ -285,9 +285,8 @@ $webhook = $rows['webhook'];
                                  <?php } ?>
                            </div>
                            <button class="uk-button uk-button-default uk-button-small" name="config" id="config" type="submit"><span uk-icon="download"></span>Config</button>
-                           <button class="uk-button uk-button-default uk-button-small" onclick="generateConfig()"><span uk-icon="download"></span>Flameshot</button>
                            <button class="uk-button uk-button-default uk-button-small" name="getNewKey" id="getNewKey" type="submit"><span uk-icon="refresh"></span>regenerate key</button>
-                           <?php if ($row['discord_username'] == '') { ?>
+                           <?php if ($row['discord_username'] == 'user#0000') { ?>
                            <a href="https://discord.com/api/oauth2/authorize?client_id=886563642127052860&redirect_uri=https%3A%2F%2Fhelist.host%2Fdiscord&response_type=code&scope=identify%20guilds.join%20email" class="uk-button uk-button-default uk-button-small"><span uk-icon="discord"></span>Link Discord</a>
                            <?php } ?>
                            <?php if ($row['discord_username'] != '') { ?>
@@ -792,9 +791,7 @@ $webhook = $rows['webhook'];
 
       function repl(s) 
       {
-        return s.replace(/{file}/g, 'asyl-is-gay.png').replace(/{username}/g, "<?php echo $username; ?>").replace(/{uid}/g, "<?php echo $id; ?>").replace(/{filename}/g, '1337').replace(/{size}/g, '13.37 KB').replace(/{ext}/g, 'png').replace(/{date}/g, '<?php echo date(
-    'm/d/Y'
-); ?>')
+        return s.replace(/{file}/g, 'asyl-is-gay.png').replace(/{username}/g, "<?php echo $username; ?>").replace(/{uid}/g, "<?php echo $id; ?>").replace(/{filename}/g, '1337').replace(/{size}/g, '13.37 KB').replace(/{ext}/g, 'png').replace(/{date}/g, '<?php echo date('m/d/Y'); ?>')
     }
 
     function updateAuthor(value) {
