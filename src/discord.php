@@ -55,7 +55,7 @@ if(session('access_token')) {
                 curl_close($ch);
 
                 $sql = "SELECT * FROM users WHERE discord_id = '".$user->id."'";
-                $result = mysqli_query($conn, $sql);
+                $result = mysqli_query($db, $sql);
                 $row = mysqli_fetch_assoc($result);
                 $dcid = $row['discord_id'];
                 $username = $row['username'];
