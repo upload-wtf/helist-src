@@ -3,18 +3,6 @@
 include "./src/database.php";
 include "./src/config.php";
 include "./src/functions.php";
-include "./src/vendor/autoload.php";
-
-
-use \Detain\RateLimit\RateLimit;
-use \Detain\RateLimit\Adapter\APCu as APCAdapter;
-use \Detain\RateLimit\Adapter\Redis as RedisAdapter;
-use \Detain\RateLimit\Adapter\Predis as PredisAdapter;
-use \Detain\RateLimit\Adapter\Memcached as MemcachedAdapter;
-use \Detain\RateLimit\Adapter\Stash as StashAdapter;
-
-$adapter = new APCAdapter();
-$rateLimit = new RateLimit("myratelimit", 100, 3600, $adapter);
 
 ?>
 
@@ -71,7 +59,6 @@ $rateLimit = new RateLimit("myratelimit", 100, 3600, $adapter);
 </body>
 
 <?php if (isset($_POST['login'])) {
-    $id = $_SERVER['REMOTE_ADDR'];
     $username = mysqli_real_escape_string($db, $_POST['username']);
     $password = mysqli_real_escape_string($db, $_POST['password']);
 
@@ -83,7 +70,6 @@ $rateLimit = new RateLimit("myratelimit", 100, 3600, $adapter);
     if (empty($password)) {
         echo '<script>toastr.error("Password is required")</script>';
     }
-    if ($rateLimit->check($id)) {
     $user_check_query = "SELECT * FROM users WHERE username='$username' LIMIT 1";
     $result = mysqli_query($db, $user_check_query);
     $user = mysqli_fetch_assoc($result);
@@ -108,9 +94,6 @@ $rateLimit = new RateLimit("myratelimit", 100, 3600, $adapter);
         }
     } else {
         echo '<script>toastr.error("Wrong password or username", "Error")</script>';
-    }
-    } else {
-        echo '<script>toastr.error("You have been ratelimited", "Error")</script>';
     }
 } ?>
 

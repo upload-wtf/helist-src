@@ -3,18 +3,6 @@
 include "./src/database.php";
 include "./src/config.php";
 include "./src/functions.php";
-include "./src/vendor/autoload.php";
-
-
-use \Detain\RateLimit\RateLimit;
-use \Detain\RateLimit\Adapter\APCu as APCAdapter;
-use \Detain\RateLimit\Adapter\Redis as RedisAdapter;
-use \Detain\RateLimit\Adapter\Predis as PredisAdapter;
-use \Detain\RateLimit\Adapter\Memcached as MemcachedAdapter;
-use \Detain\RateLimit\Adapter\Stash as StashAdapter;
-
-$adapter = new APCAdapter();
-$rateLimit = new RateLimit("myratelimit", 100, 3600, $adapter);
 
 session_start();
 
@@ -92,7 +80,6 @@ $succeded = array();
     </div>
 </body>
 <?php if (isset($_POST['reg'])) {
-    $id = $_SERVER['REMOTE_ADDR'];
     $username = mysqli_real_escape_string($db, $_POST['username']);
     $password = mysqli_real_escape_string($db, $_POST['password']);
     $c_password = mysqli_real_escape_string($db, $_POST['c_password']);
@@ -113,7 +100,6 @@ $succeded = array();
         echo '<script>toastr.error("Passwords do not match");</script>';
         $error = "Passwords do not match";
     }
-    if ($rateLimit->check($id)) {
     $user_check_query = "SELECT * FROM users WHERE username='$username' LIMIT 1";
     $result = mysqli_query($db, $user_check_query);
     $user = mysqli_fetch_assoc($result);
@@ -158,9 +144,6 @@ $succeded = array();
         } else {
             echo '<script><script>toastr.error("Invite code is invalid.", "Error")</script></script>';
         }
-    }
-    } else {
-        echo '<script><script>toastr.error("You have been ratelimited.", "Error")</script></script>';
     }
 } ?>
 
