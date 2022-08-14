@@ -7,7 +7,7 @@ include "../src/functions.php";
 session_start();
 
 if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
-    header('location: /');
+    header('location: ../');
     exit();
 }
 
@@ -134,7 +134,7 @@ if (isset($_GET['delete'])) {
 
             echo '<script>toastr.success("File deleted", "Success")</script>';
 
-            echo "<meta http-equiv='Refresh' Content='2; url=../dashboard/images'>"; 
+            echo "<meta http-equiv='Refresh' Content='2; url=/dashboard/images'>"; 
         }
     }
 }
