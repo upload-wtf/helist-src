@@ -1,11 +1,20 @@
 <?php
 
-use Aura\Filter\Rule\Validate\Email;
-
 include "./src/database.php";
 include "./src/config.php";
 include "./src/functions.php";
+include "./src/vendor/autoload.php";
 
+
+use \Detain\RateLimit\RateLimit;
+use \Detain\RateLimit\Adapter\APCu as APCAdapter;
+use \Detain\RateLimit\Adapter\Redis as RedisAdapter;
+use \Detain\RateLimit\Adapter\Predis as PredisAdapter;
+use \Detain\RateLimit\Adapter\Memcached as MemcachedAdapter;
+use \Detain\RateLimit\Adapter\Stash as StashAdapter;
+
+$adapter = new APCAdapter();
+$rateLimit = new RateLimit("myratelimit", 100, 3600, $adapter);
 
 session_start();
 
@@ -83,11 +92,10 @@ $succeded = array();
     </div>
 </body>
 <?php if (isset($_POST['reg'])) {
-    // $id = $_SERVER['REMOTE_ADDR'];
+    $id = $_SERVER['REMOTE_ADDR'];
     $username = mysqli_real_escape_string($db, $_POST['username']);
     $password = mysqli_real_escape_string($db, $_POST['password']);
     $c_password = mysqli_real_escape_string($db, $_POST['c_password']);
-    define('EMAIL', mysqli_real_escape_string($db, $_POST['email']));
     $key = mysqli_real_escape_string($db, $_POST['key']);
     if (empty($username)) {
         echo '<script>toastr.error("Username is required");</script>';
@@ -105,7 +113,7 @@ $succeded = array();
         echo '<script>toastr.error("Passwords do not match");</script>';
         $error = "Passwords do not match";
     }
-    // if ($rateLimit->check($id)) {
+    if ($rateLimit->check($id)) {
     $user_check_query = "SELECT * FROM users WHERE username='$username' LIMIT 1";
     $result = mysqli_query($db, $user_check_query);
     $user = mysqli_fetch_assoc($result);
@@ -129,8 +137,6 @@ $succeded = array();
         $regResult = mysqli_fetch_assoc($regReq);
         $inviter = $regResult['inviteAuthor'];
         if ($regResult['inviteCode'] == $key) {
-            $delquery = "DELETE FROM `invites` WHERE `inviteCode` = '$key';";
-            mysqli_query($db, $delquery);
             $ranPass = generateRandomInt(16);
             date_default_timezone_set('Europe/Berlin');
             $date = date('F d, Y h:i:s A');
@@ -142,17 +148,20 @@ $succeded = array();
                 $query = "INSERT INTO users (id, uuid, username, password, banned, invite, secret) VALUES (NULL, '$uuid', '$username', '$hashed_password', 'false', '$inviter', '$ranPass');";
                 mysqli_query($db, $query);
 
+                $delquery = "DELETE FROM `invites` WHERE `inviteCode` = '$key';";
+                mysqli_query($db, $delquery);
+
                 echo '<script><script>toastr.success("Successfully completed register! Please login.", "Success")</script></script>';
 
-                header('/login');
+                echo "<meta http-equiv='Refresh' Content='2; url=/login'>";
             }
         } else {
             echo '<script><script>toastr.error("Invite code is invalid.", "Error")</script></script>';
         }
     }
-    // } else {
-    //     $errors = 'You have been rate limited.';
-    // }
+    } else {
+        echo '<script><script>toastr.error("You have been ratelimited.", "Error")</script></script>';
+    }
 } ?>
 
 <script>

@@ -1,0 +1,5 @@
+{
+    "require": {
+        "detain/rate-limit": "^3.0"
+    }
+}
