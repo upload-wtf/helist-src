@@ -105,17 +105,6 @@ if ($row['banned'] == 'true') {
                         echo '<td>' . $row['inviter'] . '</td>';
                         echo '<td>';
                         echo '<form action="" method="POST">';
-                    if ($row['admin'] == 0) {
-                         echo '<button type="submit" name="setadmin" value="' . $row['username'] . '" class="uk-button uk-button-primary">Make Admin</button>';
-                    } else {
-                         echo '<button type="submit" name="removeadmin" value="' . $row['username'] . '" class="uk-button uk-button-danger">Remove Admin</button>';
-                    }
-                    if ($row['banned'] == 'false') {
-                         echo '<button type="submit" name="ban" value="' . $row['username'] . '" class="uk-button uk-button-danger">Ban</button>';
-                    } else {
-                         echo '<button type="submit" name="unban" value="' . $row['username'] . '" class="uk-button uk-button-primary">Unban</button>';
-                    }
-                    
                         echo '</form>';
                         echo '</tr>';
                     }

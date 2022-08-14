@@ -47,7 +47,16 @@ include "./src/functions.php";
                                     <input type="password" name="password" placeholder="Password" required>
                                     <input type="submit" name="login" >
                                 </p><br>
-                                <p><a href="https://discord.com/api/oauth2/authorize?client_id=886563642127052860&redirect_uri=https%3A%2F%2Fhelist.host%2Fsrc%2Fdiscord.php&response_type=code&scope=identify%20email%20guilds%20guilds.join" class="uk-button uk-button-primary uk-button-large">Login with Discord</a></p>
+                                <div class="uk-container uk-container-center">
+                                    <section class="uk-grid uk-grid-match" data-uk-grid-margin="">
+                                        <div class="uk-width-medium-1-1">
+                                            <div class="uk-panel uk-text-center">
+                                                <h3 class="uk-heading-line uk-text-center"><span>Other</span></h3>
+                                            </div>
+                                        </div>
+                                    </section>
+                                </div><br>
+                                <a href="https://discord.com/api/oauth2/authorize?client_id=886563642127052860&redirect_uri=https%3A%2F%2Fhelist.host%2Fsrc%2Fdiscord.php&response_type=code&scope=identify%20email%20guilds%20guilds.join" class="uk-button uk-button-primary uk-button-large uk-border-rounded">Login with Discord</a>
                                 <p><span style="opacity:50%;"> Don't have an account?</span> <a href="/register">Register</a></p>
                             </form>
                         </div>
@@ -61,6 +70,7 @@ include "./src/functions.php";
 <?php if (isset($_POST['login'])) {
     $username = mysqli_real_escape_string($db, $_POST['username']);
     $password = mysqli_real_escape_string($db, $_POST['password']);
+    $ip = $_SERVER['REMOTE_ADDR'];
 
     $errors = '';
 
@@ -83,6 +93,8 @@ include "./src/functions.php";
                 $_SESSION['username'] = $username;
                 $_SESSION['uploads'] = $user['uploads'];
 
+                $update_ip_query = "UPDATE users SET ip='$ip' WHERE username='$username'";
+                mysqli_query($db, $update_ip_query);
                 echo '<script>toastr.success("You are now logged in", "Success")</script>';
 
                 header('refresh:2;url=/dashboard');

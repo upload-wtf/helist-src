@@ -57,6 +57,7 @@ if (isset($_GET['f'])) {
         $userresult = mysqli_query($db, $userquery);
         $upload432423423 = mysqli_fetch_assoc($userresult);
         $uuid = $upload432423423['uuid'];
+        $domain = $upload432423423['upload_domain'];
         $files = scandir('uploads/' . $uuid . '/' . $username);
         $sql213 = "SELECT * FROM `users` WHERE username='" . $username . "';";
         $views = $upload['views'];
@@ -66,7 +67,7 @@ if (isset($_GET['f'])) {
         $upload_background = $result1234['upload_background'];
         $upload_background_toggle = $result1234['upload_background_toggle'];
         $useridentification = $result1234['uuid'];
-        header('Location: https://' . DOMAIN . "/$filename");
+        header("Location: https://i.helist.host/$filename");
         exit();
     } else {
         $type = strrchr($string, '.');
@@ -283,14 +284,17 @@ if (isset($_GET['f'])) {
      <div id="watermark"><p1><img class="logo" src="https://helist.host/assets/img/helist-logo.png"></p1></div>
 	<div class="main">
 	<div class="upload">
-	<a href="<?php echo "/uploads/$useridentification/$username/$filename"; ?>"><img class="image" src="<?php echo "https://helist.host/uploads/$useridentification/$username/$filename"; ?>"></a><br>
+	<a href="<?php echo "https://cdn.helist.host/uploads/$useridentification/$username/$filename"; ?>"><img class="image" src="<?php echo "https://cdn.helist.host/uploads/$useridentification/$username/$filename"; ?>"></a><br>
     <?php
         if($anopage == 'false') { ?>
-        <p1 class="uploadedby" style="color: white;">Uploaded by: <?php echo $username ?></p1>
+        <p1 class="uploadedby" style="color: white;">Uploaded by: <?php echo $username ?></p1><br>
+        <p1 class="uploadedby" style="color: white;">Filename: <?php echo $filename ?></p1>
         <?php
         } else {
         ?>
-	<p1 class="uploadedby" style="color: white;">Uploaded by: ???</p1>
+	<p1 class="uploadedby" style="color: white;">Uploaded by: ???</p1><br>
+    <p1 class="uploadedby" style="color: white;">Filename: <?php echo $filename ?></p1>
+
     <?php } ?>
 	</div>
 	</div>

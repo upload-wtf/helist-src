@@ -5,7 +5,7 @@ function generateInvisible(): string
      $string = '';
      $unicodes = ['\u200B', '\u2060', '\u180E', '\u200D', '\u200C'];
 
-     for ($i = 0; $i <= 34; $i++) {
+     for ($i = 0; $i <= 70; $i++) {
           $random_keys = array_rand($unicodes);
           $thing = json_decode('"' . $unicodes[$random_keys] . '"');
           $string .= $thing;
@@ -16,7 +16,7 @@ function generateInvisible(): string
 function generateRandomEmoji(): string
 {
      $string = '';
-     $unicodes = ['😁', '😂', '😃', '😄', '😅', '😆', '😉', '😊', '😋', '😌', '😍', '😏', '😒', '😓', '😔', '😖', '😘', '😚', '😜', '😝', '😞', '😠', '😡', '😢', '😣', '😤', '😥', '😨', '😩', '😪', '😫', '😭', '😰', '😱', '😲', '😳', '😵', '😷', '\u2060', '\u180E', '\u200D', '\u200C', '\u2060', '\u180E', '\u200D', '\u200C'];
+     $unicodes = ['😁', '😂', '😃', '😄', '😅', '😆', '😉', '😊', '😋', '😌', '😍', '😏', '😒', '😓', '😔', '😖', '😘', '😚', '😜', '😝', '😞', '😠', '😡', '😢', '😣', '😤', '😥', '😨', '😩', '😪', '😫', '😭', '😰', '😱', '😲', '😳', '😵', '😷', '\u2060', '\u180E', '\u200D', '\u200C', '\u2060', '\u180E', '\u200D', '\u200C', '😳', '😵', '😷', '\u2060', '\u180E', '\u200D', '\u200C', '\u2060', '\u180E', '\u200D', '\u200C', '\u2060', '\u180E', '\u200D', '\u200C', '\u2060', '\u180E', '\u200D', '\u200C', '😳', '😵', '😷'];
 
      for ($i = 0; $i <= 12; $i++) {
           $random_keys = array_rand($unicodes);
@@ -30,11 +30,18 @@ function generateRandomEmoji(): string
 function generateRandomSus(): string
 {
      $string = '';
-     $unicodes = ['ඞ', 'ඞ', 'ඞ', 'ඞ', 'ඞ', 'ඞ', 'ඞ', 'ඞ', 'ඞ', 'ඞ', 'ඞ', 'ඞ', 'ඞ', '\u2060', '\u180E', '\u200D', '\u200C', 'ඞ', 'ඞ', 'ඞ', 'ඞ', 'ඞ', 'ඞ', 'ඞ', 'ඞ', 'ඞ', 'ඞ', 'ඞ', 'ඞ', 'ඞ'];
+     $suschars = ['ඞ', 'ඞ', 'ඞ', 'ඞ', 'ඞ', 'ඞ'];
+     $invis = ['\u200B', '\u2060', '\u180E', '\u200D', '\u200C'];
 
      for ($i = 0; $i <= 12; $i++) {
-          $random_keys = array_rand($unicodes);
-          $thing = json_decode('"' . $unicodes[$random_keys] . '"');
+          $random_keys = array_rand($suschars);
+          $thing = json_decode('"' . $suschars[$random_keys] . '"');
+          $string .= $thing;
+     }
+
+     for ($i = 0; $i <= 70; $i++) {
+          $random_keys = array_rand($invis);
+          $thing = json_decode('"' . $invis[$random_keys] . '"');
           $string .= $thing;
      }
 

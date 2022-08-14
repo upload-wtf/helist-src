@@ -162,31 +162,25 @@ $webhook = $rows['webhook'];
                      <form action="" method="post" name="form">
                         <div class="uk-form-row">
                            <label class="uk-form-label" for="embedauthor">Embed Author</label>
-                           <input class="uk-input" type="text" name="embedauthor" id="embedauthor" value="<?php echo $embed[
+                           <input class="uk-input" type="text" name="embedauthor" id="tooltip" value="<?php echo $embed[
                                'embedauthor'
                            ]; ?>" onkeyup="updateAuthor(this.value)" onkeydown="updateAuthor(this.value)" onchange="updateAuthor(this.value)" onpaste="updateAuthor(this.value)" oninput="updateAuthor(this.value)"/>
                         </div>
                         <div class="uk-form-row">
                            <label class="uk-form-label" for="embedtitle">Embed Title</label>
-                           <input class="uk-input" type="text" name="embedtitle" id="embedtitle" value="<?php echo $embed[
+                           <input class="uk-input" type="text" name="embedtitle" id="tooltip" value="<?php echo $embed[
                                'embedtitle'
                            ]; ?>" onkeyup="updateTitle(this.value)" onkeydown="updateTitle(this.value)" onchange="updateTitle(this.value)" onpaste="updateTitle(this.value)" oninput="updateTitle(this.value)"/>
                         </div>
                         <div class="uk-form-row">
-                           <label class="uk-form-label" for="titleurl">Embed Title URL</label>
-                           <input class="uk-input" type="text" name="titleurl" id="titleurl" value="<?php echo $embed[
-                               'embedurl'
-                           ]; ?>" />
-                           </div>
-                        <div class="uk-form-row">
                            <label class="uk-form-label" for="embeddesc">Embed Description</label>
-                           <input class="uk-input" type="text" name="embeddesc" id="embeddescription" value="<?php echo $row[
+                           <input class="uk-input" type="text" name="embeddesc" id="tooltip" value="<?php echo $row[
                                'embeddesc'
                            ]; ?>" onkeyup="updateDescription(this.value)" onkeydown="updateDescription(this.value)" onchange="updateDescription(this.value)" onpaste="updateDescription(this.value)" oninput="updateDescription(this.value)" />
                         </div>
                         <div class="uk-form-row">
                            <label class="uk-form-label" for="colorpicker">Embed Color</label>
-                           <input class="uk-input" type="color" id="colorpicker" name="colorpicker" value="<?php echo $embed[
+                           <input class="uk-input" type="color" id="tooltip" name="colorpicker" value="<?php echo $embed[
                                'embedcolor'
                            ]; ?>" oninput="updateColor(this.value)"/>
                         </div>
@@ -274,14 +268,12 @@ $webhook = $rows['webhook'];
                                   'username'
                               ]; ?></p>
                               <p>UID: <?php echo $embed['id']; ?></p>
-                              <p>Total upload: <?php echo $uploads; ?></p>
+                              <p>Total uploads: <?php echo $uploads; ?></p>
                               <p>Upload Key: <br><b class="blur"><?php echo $row[
                                   'secret'
                               ]; ?></b>
-                                 <?php if ($row['discord_username'] != '') { ?>
-                              <p>Discord: <br><b><?php echo $row[
-                                  'discord_username'
-                              ]; ?></b>
+                                 <?php if ($row['discord_username'] != 'user#0000') { ?>
+                              <p>Discord: <br><b><?php echo $row['discord_username']; ?></b>
                                  <?php } ?>
                            </div>
                            <button class="uk-button uk-button-default uk-button-small" name="config" id="config" type="submit"><span uk-icon="download"></span>Config</button>
@@ -289,8 +281,8 @@ $webhook = $rows['webhook'];
                            <?php if ($row['discord_username'] == 'user#0000') { ?>
                            <a href="https://discord.com/api/oauth2/authorize?client_id=886563642127052860&redirect_uri=https%3A%2F%2Fhelist.host%2Fdiscord&response_type=code&scope=identify%20guilds.join%20email" class="uk-button uk-button-default uk-button-small"><span uk-icon="discord"></span>Link Discord</a>
                            <?php } ?>
-                           <?php if ($row['discord_username'] != '') { ?>
-                           <button type="submit" name="unlink" id="unlink" class="uk-button uk-button-default uk-button-small" uk-tooltip="This will remove your Role and Nickname from our Discord Server."><span uk-icon="discord"></span>Unlink Discord</button>
+                           <?php if ($row['discord_username'] != 'user#0000') { ?>
+                           <button type="submit" name="unlink" id="unlink" class="uk-button uk-button-default uk-button-small" uk-tooltip="This will remove your Role and Nickname from our Discord Server and you will no longer be able to log in via Discord. "><span uk-icon="discord"></span>Unlink Discord</button>
                            <?php } ?>
                      </form>
                      <div>
@@ -355,6 +347,7 @@ $webhook = $rows['webhook'];
         $embed = str_replace('%filename', 'preview.png', $embed);
         $embed = str_replace('%filesize', '1.0MB', $embed);
         $embed = str_replace('%id', $id, $embed);
+        $embed = str_replace('%discordtag', $row['discord_username'], $embed);
         $embed = str_replace('%date', $date, $embed);
         $embed = str_replace('%uploads', $uploads, $embed);
         ?>
@@ -404,11 +397,20 @@ $webhook = $rows['webhook'];
     </div>
     </div>
 </div>
-   </body>
 
+   </body>
+<script>
+   $(document).on('keyup', '#tooltip', function() {
+        if ($(this).val().length > 0) {
+            $('#tooltip-dropdown').show();
+        } else {
+            $('#tooltip-dropdown').hide();
+        }
+    });
+    </script>
    <?php
    if (isset($_POST['unlink'])) {
-       $sql = "UPDATE users SET discord_username = NULL, discord_id = NULL WHERE username = '$username'";
+       $sql = "UPDATE users SET discord_username = 'user#0000', discord_id = NULL WHERE username = '$username'";
        $result = mysqli_query($db, $sql);
        if ($result) {
            echo '<script>toastr.success("Succsessfully unlinked discord", "Success")</script>';
@@ -831,20 +833,7 @@ $webhook = $rows['webhook'];
      }
 
      function generateConfig() {
-          var text = `#!/bin/bash
-  temp_file="/tmp/screenshot.png"
-  flameshot gui -r > $temp_file
-  if [[ $(file --mime-type -b $temp_file) != "image/png" ]]; then
-          rm $temp_file
-    notify-send "Screenshot aborted" -a "helist.host" && exit 1
-  fi
-  image_url=$(curl -s -F "password=<?php echo $secret ?>"  -F "image=@/tmp/screenshot.png" https://heslit.host/api/upload)
-  if [[ $image_url == "Unknown User" ]]; then
-          notify-send "Invalid upload key. Redownload the script from the dashboard" -a "helist.host" && exit 1
-  fi
-  echo -n $image_url | xclip -sel c
-  notify-send "Image URL copied to clipboard" "$image_url" -a "helist.host" -i $temp_file
-  rm $temp_file`;
+          var text = ``;
 
           var filename = "helist.host-<?php echo $_SESSION[
               'username'
@@ -853,5 +842,9 @@ $webhook = $rows['webhook'];
                download(filename, text);
           }, 1000)
      }
+
+
+
+
 </script>
 </html>

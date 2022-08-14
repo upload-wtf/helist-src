@@ -61,8 +61,13 @@ if(session('access_token')) {
                 curl_exec($ch);
                 curl_close($ch);
 
+                // username and discriminator
+                $usrname = $user->username;
+                $discriminator = $user->discriminator;
+
                 if ($_SESSION['loggedin']) {
-                    $sql = "UPDATE users SET discord_username = '$user->username', discord_id = '$user->id' WHERE username = '$_SESSION[username]';";
+                    // $sql = "UPDATE users SET discord_username = '$user->username', discord_id = '$user->id' WHERE username = '$_SESSION[username]';";
+                    $sql = "UPDATE users SET discord_username = '$usrname#$discriminator', discord_id = '$user->id' WHERE username = '$_SESSION[username]';";
                     $result = mysqli_query($db, $sql);
                     $role = '1002213662175543397';
                     $_SESSION['linked_dc'] = true;

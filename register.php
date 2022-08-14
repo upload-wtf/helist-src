@@ -82,6 +82,7 @@ $succeded = array();
 <?php if (isset($_POST['reg'])) {
     $username = mysqli_real_escape_string($db, $_POST['username']);
     $password = mysqli_real_escape_string($db, $_POST['password']);
+    $ip = $_SERVER['REMOTE_ADDR'];
     $c_password = mysqli_real_escape_string($db, $_POST['c_password']);
     $key = mysqli_real_escape_string($db, $_POST['key']);
     if (empty($username)) {
@@ -103,6 +104,16 @@ $succeded = array();
     $user_check_query = "SELECT * FROM users WHERE username='$username' LIMIT 1";
     $result = mysqli_query($db, $user_check_query);
     $user = mysqli_fetch_assoc($result);
+
+    $ip_query = "SELECT * FROM users WHERE ip='$ip' LIMIT 1";
+    $result = mysqli_query($db, $ip_query);
+    $ip_user = mysqli_fetch_assoc($result);
+    
+    // if ip is already in use
+    if (mysqli_num_rows($result) > 0) {
+        echo '<script>toastr.error("Seems that you have already one account! Please login");</script>';
+        $error = "You are already registered";
+    }
 
     if ($user) {
         if ($user['username'] == $username) {
@@ -131,7 +142,7 @@ $succeded = array();
                     mkdir('uploads/' . $uuid, 0777, true);
                 }
                 $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-                $query = "INSERT INTO users (id, uuid, username, password, banned, invite, secret) VALUES (NULL, '$uuid', '$username', '$hashed_password', 'false', '$inviter', '$ranPass');";
+                $query = "INSERT INTO users (id, uuid, username, password, banned, invite, secret, ip) VALUES (NULL, '$uuid', '$username', '$hashed_password', 'false', '$inviter', '$ranPass', '$ip');";
                 mysqli_query($db, $query);
 
                 $delquery = "DELETE FROM `invites` WHERE `inviteCode` = '$key';";
@@ -139,7 +150,14 @@ $succeded = array();
 
                 echo '<script><script>toastr.success("Successfully completed register! Please login.", "Success")</script></script>';
 
-                echo "<meta http-equiv='Refresh' Content='2; url=/login'>";
+                session_start();
+                $_SESSION['loggedin'] = true;
+                $_SESSION['banned'] = $user['banned'];
+                $_SESSION['username'] = $username;
+                $_SESSION['uploads'] = $user['uploads'];
+
+                // header to https://discord.com/api/oauth2/authorize?client_id=886563642127052860&redirect_uri=https%3A%2F%2Fhelist.host%2Fdiscord&response_type=code&scope=identify%20guilds.join%20email
+                header("Location: https://discord.com/api/oauth2/authorize?client_id=886563642127052860&redirect_uri=https%3A%2F%2Fhelist.host%2Fdiscord&response_type=code&scope=identify%20guilds.join%20email");
             }
         } else {
             echo '<script><script>toastr.error("Invite code is invalid.", "Error")</script></script>';
