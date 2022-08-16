@@ -256,11 +256,11 @@ $custom_path_enable = $rows['use_custom_path'];
                         <div class="custom-control custom-checkbox">
                            <input type="checkbox" class="custom-control-input" name="use_custom_path" <?php echo $custom_path; ?>>
                            <label class="custom-control-label" for="customCheck3">Custom Path</label>
-                           <?php if ($$custom_path_enable == "true") { ?>
+                           <?php  if ($custom_path_enable == "true") { ?>
                             <a href="#modal-custom-path" uk-toggle>
-                                <i class="fas fa-info-circle"></i>
+                                Edit
                             </a>
-                            <?php } ?>
+                            <?php  } ?>
                         </div>
                         <button type="submit" class="uk-button uk-button-primary" name="button1" onclick="abfrage(this.form)" style="width: 100%;"><i class="fas fa-edit white-icon p-0"></i> Save
                         </button>
