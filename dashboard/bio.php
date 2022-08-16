@@ -174,7 +174,7 @@ if ($row['banned'] == 'true') {
                               </div>
                            </div>
                         </section>
-                     </div>
+                     </div><br>
                      <form action="" method="post" name="form">
                     <center>
                       <div class="uk-margin">
