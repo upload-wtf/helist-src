@@ -67,11 +67,11 @@ function generateCustom(): string
      $custom = ["$string"];
      $invis = array("\u{200D}", "\u{200B}");
 
-     for ($i = 0; $i <= 1; $i++) {
-          $random_keys = array_rand($custom);
-          $thing = json_decode('"' . $custom[$random_keys] . '"');
-          $string .= $thing;
-     }
+    //  for ($i = 0; $i <= 1; $i++) {
+    //       $random_keys = array_rand($custom);
+    //       $thing = json_decode('"' . $custom[$random_keys] . '"');
+    //       $string .= $thing;
+    //  }
 
      for ($i = 0; $i <= 70; $i++) {
           $random_keys = array_rand($invis);
