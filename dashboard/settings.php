@@ -50,6 +50,12 @@ if($embed['anonym_page'] == 'true') {
     $anonym_page = 'false';
 }
 
+if($embed['use_custom_path'] == 'true') {
+    $custom_path = 'checked';
+} else {
+    $custom_path = 'false';
+}
+
 if ($embed['use_emoji_url'] == 'true') {
     $emoji_url = 'checked';
 } else {
@@ -244,6 +250,14 @@ $webhook = $rows['webhook'];
                            <input type="checkbox" class="custom-control-input" name="anonym_upload" <?php echo $anonym_page; ?>>
                            <label class="custom-control-label" for="customCheck3">Anonym upload</label>
                         </div>
+                        <!-- CUSTOM PATH -->
+                        <div class="custom-control custom-checkbox">
+                           <input type="checkbox" class="custom-control-input" name="use_custom_path" <?php echo $custom_path; ?>>
+                           <label class="custom-control-label" for="customCheck3">Custom Path</label>
+                            <a href="#modal-custom-path" uk-toggle>
+                                <i class="fas fa-info-circle"></i>
+                            </a>
+                        </div>
                         <button type="submit" class="uk-button uk-button-primary" name="button1" onclick="abfrage(this.form)" style="width: 100%;"><i class="fas fa-edit white-icon p-0"></i> Save
                         </button>
                      </form>
@@ -397,6 +411,34 @@ $webhook = $rows['webhook'];
         <div>
     </div>
     </div>
+
+    <div id="modal-custom-path" uk-modal>
+    <div class="uk-modal-dialog uk-modal-body">
+    <div class="uk-card-body">
+        <div>
+        <section class="uk-grid uk-grid-match" data-uk-grid-margin="">
+            <div class="uk-width-medium-1-1">
+                <div class="uk-panel uk-text-center">
+                    <h3 class="uk-heading-line uk-text-center"><span>Update Custom Path</span></h3>
+                </div>
+            </div>
+        </section>
+        </div><br>
+        <form action="" method="POST">
+        <div class="uk-margin">
+            <div class="uk-inline">
+                <span class="uk-form-icon" uk-icon="icon: folder"></span>
+                <input class="uk-input" type="text" name="path" value="<?php echo $webhook ?>" placeholder="Path">
+            </div>
+        </div>
+        <div class="uk-margin">
+            <button class="uk-button uk-button-primary" type="submit" name="set_custom_path">Update</button>
+        </div>
+        </form>
+        <div>
+    </div>
+    </div>
+
 </div>
 
    </body>
@@ -410,6 +452,20 @@ $webhook = $rows['webhook'];
     });
     </script>
    <?php
+
+if(isset($_POST['set_custom_path'])){
+    $path = $_POST['path'];
+    $sql = "UPDATE users SET path = '$path' WHERE username = '$username'";
+    $result = mysqli_query($db, $sql);
+    if($result){
+        echo '<script>toastr.success("Succsessfully added path.", "Success")</script>';
+        echo "<meta http-equiv='Refresh' Content='2; url=../dashboard/settings'>";
+    } else {
+        echo '<script>toastr.error("Something went wrong.", "Error")</script>';
+        echo "<meta http-equiv='Refresh' Content='2; url=../dashboard/settings'>";
+    }
+}
+
    if (isset($_POST['unlink'])) {
        $sql = "UPDATE users SET discord_username = 'user#0000', discord_id = NULL WHERE username = '$username'";
        $result = mysqli_query($db, $sql);
@@ -576,6 +632,22 @@ $webhook = $rows['webhook'];
                "';";
            $result3 = mysqli_query($db, $sql3);
        }
+
+       if (isset($_POST['use_custom_path'])) {
+        $sql3 =
+            "UPDATE users SET use_custom_path='true' WHERE username='" .
+            $username .
+            "';";
+        $result3 = mysqli_query($db, $sql3);
+    }
+
+    if (!isset($_POST['use_custom_path'])) {
+        $sql3 =
+            "UPDATE users SET use_custom_path='false' WHERE username='" .
+            $username .
+            "';";
+        $result3 = mysqli_query($db, $sql3);
+    }
 
        if (isset($_POST['anonym_upload'])) {
         $sql3 =
