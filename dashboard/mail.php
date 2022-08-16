@@ -169,11 +169,11 @@ $randomint = rand(1, 1000000);
                             <div class="uk-inline">
                                 <span class="uk-form-icon" uk-icon="icon: mail"></span>
                                 <input class="uk-input" type="text" name="mail" placeholder="Email">
+                                
                             </div>
                          </div>
 
                          <div class="uk-inline">
-                         <span class="uk-form-icon" uk-icon="icon: mail"></span>
                          <select class="uk-select" name="selectedmail" style="margin-top: 5px;">
                            <option value="helist.email" selected>helist.email</option>
                            <?php

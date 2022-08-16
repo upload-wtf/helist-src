@@ -42,6 +42,8 @@ $invisible_url = $user['use_invisible_url'];
 $emoji_url = $user['use_emoji_url'];
 $sus_url = $user['use_sus_url'];
 $uuid = $user['uuid'];
+$custom_path = $user['use_custom_path'];
+$path = $user['path'];
 $uploadToDomain = $user['upload_domain'];
 $uploads = intval($user['uploads']) + 1;
 $filename_type = $user['filename_type'];
@@ -57,6 +59,30 @@ $result1 = mysqli_query($db, $sql1121);
 $user1 = mysqli_fetch_assoc($result1);
 $maintenance = $user1['maintenance'];
 $allow_uploads = "true";
+
+function generateCustom(): string
+{
+     global $path;
+     $string = $path;
+     $custom = ["$string"];
+     $invis = array("\u{200D}", "\u{200B}");
+
+     for ($i = 0; $i <= 1; $i++) {
+          $random_keys = array_rand($custom);
+          $thing = json_decode('"' . $custom[$random_keys] . '"');
+          $string .= $thing;
+     }
+
+     for ($i = 0; $i <= 70; $i++) {
+          $random_keys = array_rand($invis);
+          $thing = json_decode('"' . $invis[$random_keys] . '"');
+          $string .= $thing;
+     }
+
+     return $string;
+}
+
+
 if ($maintenance == "true") {
     die("" . SERVICE_NAME . " is currently undergoing maintenance!");
 } else {
@@ -142,6 +168,7 @@ if ($maintenance == "true") {
                             $hash_filename_emoji = generateRandomEmoji($hash_filename);
                             $hash_filename_sus = generateRandomSus($hash_filename);
                             $hash_filename = generateInvisible($hash_filename);
+                            $hash_filename_custom = generateCustom($hash_filename);
                             $fileurl = $protocol . DOMAIN . DIRECTORY . "uploads/$hash";
                             $files = scandir('uploads/');
                             $filesize = human_filesize(filesize('uploads/' . $uuid . '/' . $username . "/" . $hash), 2);
@@ -285,6 +312,9 @@ if ($maintenance == "true") {
                                     } else if ($sus_url == "true") {
                                         echo "https://$uploadToDomain" . DIRECTORY . "/" .  $hash_filename_sus;
                                         $hash_filename_db = urlencode($hash_filename_sus);
+                                    } else if ($custom_path == "true") {
+                                        echo "https://$uploadToDomain" . DIRECTORY . "/" .  $hash_filename_custom;
+                                        $hash_filename_db = urlencode($hash_filename_custom);
                                     } else {
                                         echo "https://$uploadToDomain" . DIRECTORY . "/" . $hash;
                                     }
@@ -301,7 +331,10 @@ if ($maintenance == "true") {
                                     } else if ($shurk_url == "true") {
                                         echo "https://$uploadToDomain" . DIRECTORY . "/" .  $hash_filename_shurk;
                                         $hash_filename_db = urlencode($hash_filename_shurk);
-                                    } else {
+                                    } else if ($custom_path == "true") {
+                                        echo "https://$uploadToDomain" . DIRECTORY . "/" .  $hash_filename_custom;
+                                        $hash_filename_db = urlencode($hash_filename_custom);
+                                     } else {
                                         echo "https://$uploadToDomain" . DIRECTORY . "/" . $hash;
                                     }
                                 }
