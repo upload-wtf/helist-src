@@ -24,7 +24,7 @@ if (!isset($_SESSION['loggedin'])) {
      die(
          "You are not logged in. Please <a href='https://helist.host/login'>login</a>."
      );
- }
+}
 
 if(get('code')) {
 

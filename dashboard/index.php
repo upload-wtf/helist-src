@@ -81,6 +81,7 @@ $embed = mysqli_fetch_assoc($result);
                     <li><a href="/dashboard" style="color: white">Home</a></li>
                     <li><a href="/dashboard/settings">Settings</a></li>
                     <li><a href="/dashboard/images">Images</a></li>
+                    <li><a href="/dashboard/mail">Mail</a></li>
                     <li><a href="#modal-invites" uk-toggle>Invites</a></li>
                     <?php if ($admin == '1') { ?>
                     <li><a href="/dashboard/admin">Admin</a></li>

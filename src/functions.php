@@ -1,28 +1,54 @@
 <?php
 
+// function generateInvisible(): string
+// {
+//      $string = '';
+//      $unicodes = ['\u200B', '\u2060', '\u180E', '\u200D', '\u200C'];
+
+//      for ($i = 0; $i <= 70; $i++) {
+//           $random_keys = array_rand($unicodes);
+//           $thing = json_decode('"' . $unicodes[$random_keys] . '"');
+//           $string .= $thing;
+//      }
+
+//      return $string;
+// }
+
 function generateInvisible(): string
 {
-     $string = '';
-     $unicodes = ['\u200B', '\u2060', '\u180E', '\u200D', '\u200C'];
+    $an = array("\u{200D}", "\u{200B}");
+    $string = "";
 
-     for ($i = 0; $i <= 70; $i++) {
-          $random_keys = array_rand($unicodes);
-          $thing = json_decode('"' . $unicodes[$random_keys] . '"');
-          $string .= $thing;
-     }
+    for ($i = 0; $i < 70; $i++) {
+        $string .= $an[array_rand($an, 1)];
+    }
 
-     return $string;
+    return $string;
 }
+
 function generateRandomEmoji(): string
 {
      $string = '';
-     $unicodes = ['😁', '😂', '😃', '😄', '😅', '😆', '😉', '😊', '😋', '😌', '😍', '😏', '😒', '😓', '😔', '😖', '😘', '😚', '😜', '😝', '😞', '😠', '😡', '😢', '😣', '😤', '😥', '😨', '😩', '😪', '😫', '😭', '😰', '😱', '😲', '😳', '😵', '😷', '\u2060', '\u180E', '\u200D', '\u200C', '\u2060', '\u180E', '\u200D', '\u200C', '😳', '😵', '😷', '\u2060', '\u180E', '\u200D', '\u200C', '\u2060', '\u180E', '\u200D', '\u200C', '\u2060', '\u180E', '\u200D', '\u200C', '\u2060', '\u180E', '\u200D', '\u200C', '😳', '😵', '😷'];
+     $an = array("\u{200D}", "\u{200B}");
+     $unicodes = ['😁', '😂', '😃', '😄', '😅', '😆', '😉', '😊', '😋', '😌', '😍', '😏', '😒', '😓', '😔', '😖', '😘', '😚', '😜', '😝', '😞', '😠', '😡', '😢', '😣', '😤', '😥', '😨', '😩', '😪', '😫', '😭', '😰', '😱', '😲', '😳', '😵', '😷','😳', '😵', '😷', '😳', '😵', '😷'];
 
      for ($i = 0; $i <= 12; $i++) {
           $random_keys = array_rand($unicodes);
           $thing = json_decode('"' . $unicodes[$random_keys] . '"');
           $string .= $thing;
      }
+
+     for ($i = 0; $i <= 70; $i++) {
+          $random_keys = array_rand($an);
+          $thing = json_decode('"' . $an[$random_keys] . '"');
+          $string .= $thing;
+     }
+
+     // for ($i = 0; $i <= 12; $i++) {
+     //      $random_keys = array_rand($unicodes);
+     //      $thing = json_decode('"' . $unicodes[$random_keys] . '"');
+     //      $string .= $thing;
+     // }
 
      return $string;
 }
@@ -31,7 +57,7 @@ function generateRandomSus(): string
 {
      $string = '';
      $suschars = ['ඞ', 'ඞ', 'ඞ', 'ඞ', 'ඞ', 'ඞ'];
-     $invis = ['\u200B', '\u2060', '\u180E', '\u200D', '\u200C'];
+     $invis = array("\u{200D}", "\u{200B}");
 
      for ($i = 0; $i <= 12; $i++) {
           $random_keys = array_rand($suschars);
@@ -70,6 +96,8 @@ function generateRandomString($length = 5)
      }
      return $randomString;
 }
+
+
 function get_header($field)
 {
      $headers = headers_list();

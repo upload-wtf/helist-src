@@ -1,0 +1,92 @@
+<?php
+
+include '../src/database.php';
+include '../src/config.php';
+include '../src/functions.php';
+
+session_start();
+
+if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
+    header('location: /');
+    exit();
+}
+
+$username = $_SESSION['username'];
+
+$sql = "SELECT * FROM users WHERE username='$username';";
+$result = mysqli_query($db, $sql);
+$row = mysqli_fetch_assoc($result);
+
+if ($row['banned'] == 'true') {
+    header('location: /logout');
+}
+
+$sql = "SELECT * FROM users WHERE username='$username';";
+$result = mysqli_query($db, $sql);
+$embed = mysqli_fetch_assoc($result);
+$avatar = $embed['avatar'];
+$id = $embed['id'];
+$uuid = $embed['uuid'];
+$regdate = $embed['reg_date'];
+$uploads = $embed['uploads'];
+$banner = $row['bio_background'];
+$username = $row['username'];
+$status = $row['status'];
+$description = $row['description'];
+$premium = $row['premium'];
+$admin = $row['admin'];
+$custom_domain = $row['use_customdomain'];
+$email = $row['email'];
+
+$sql = "SELECT secret FROM users WHERE username = '$username'";
+$result = mysqli_query($db, $sql);
+$row = mysqli_fetch_assoc($result);
+$secret = $row['secret'];
+
+$sql = "SELECT * FROM users WHERE username='$username';";
+$result = mysqli_query($db, $sql);
+$rows = mysqli_fetch_assoc($result);
+$subdomain = $rows['subdomain'];
+$selecteddomain = $rows['domain'];
+$banner = $rows['bio_background'];
+
+$errors = [];
+
+$sql = "SELECT * FROM users WHERE username='$username';";
+$result = mysqli_query($db, $sql);
+$embed = mysqli_fetch_assoc($result);
+?>
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Dashboard</title>
+        <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link rel="stylesheet" href="https://https://helist.host/assets/css/uikit.min.css" />
+      <link rel="stylesheet" href="https://helist.host/assets/css/style.css" />
+      <script src="https://helist.host/assets/js/uikit.min.js"></script>
+      <script src="https://helist.host/assets/js/uikit-icons.min.js"></script>
+      <link rel="icon" type="image/png" href="https://helist.host/assets/img/helist-logo.png">
+      <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/css/toastr.css" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.js"></script>
+    </head>
+    <body>
+      
+      <!-- centered card in the middle of the page with profile picture -->
+      <link rel="stylesheet" href="https://https://helist.host/assets/css/uikit.min.css" />
+      <link rel="stylesheet" href="https://helist.host/assets/css/style.css" />
+      <link rel="stylesheet" href="https://helist.host/assets/css/img-prw.css" />
+      <script src="https://helist.host/assets/js/uikit.min.js"></script>
+      <script src="https://helist.host/assets/js/uikit-icons.min.js"></script>
+
+               </head>
+               <body>
+     <div id="watermark"><p1><img class="logo" src="https://helist.host/assets/img/helist-logo.png"></p1></div>
+	<div class="main">
+      
+	</div>
+</body>
+</body>
+</html>

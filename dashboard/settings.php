@@ -123,6 +123,7 @@ $webhook = $rows['webhook'];
                   <li><a href="/dashboard" >Home</a></li>
                   <li><a href="/dashboard/settings" style="color: white">Settings</a></li>
                   <li><a href="/dashboard/images">Images</a></li>
+                  <li><a href="/dashboard/mail">Mail</a></li>
                   <?php if ($admin == '1') { ?>
                     <li><a href="/dashboard/admin">Admin</a></li>
                     <?php } ?>
@@ -533,7 +534,6 @@ $webhook = $rows['webhook'];
            isset($_POST['embedauthor']) &&
            isset($_POST['embedtitle']) &&
            isset($_POST['embeddesc']) &&
-           isset($_POST['titleurl']) &&
            isset($_POST['colorpicker'])
        ) {
            $sql2 =
@@ -543,8 +543,6 @@ $webhook = $rows['webhook'];
                $_POST['embedtitle'] .
                "', embeddesc='" .
                $_POST['embeddesc'] .
-               "', embedurl='" .
-               $_POST['titleurl'] .
                "', embedcolor='" .
                $_POST['colorpicker'] .
                "' WHERE username='" .

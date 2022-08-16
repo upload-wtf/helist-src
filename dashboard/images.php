@@ -52,6 +52,7 @@ $admin = $row['admin'];
                     <li><a href="/dashboard">Home</a></li>
                     <li><a href="/dashboard/settings">Settings</a></li>
                     <li><a href="/dashboard/images" style="color: white">Images</a></li>
+                    <li><a href="/dashboard/mail">Mail</a></li>
                     <?php if ($admin == '1') { ?>
                     <li><a href="/dashboard/admin">Admin</a></li>
                     <?php } ?>
