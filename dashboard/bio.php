@@ -176,6 +176,7 @@ if ($row['banned'] == 'true') {
                         </section>
                      </div>
                      <form action="" method="post" name="form">
+                    <center>
                       <div class="uk-margin">
                         <div class="uk-inline">
                           <span class="uk-form-icon" uk-icon="icon: user"></span>
@@ -210,6 +211,7 @@ if ($row['banned'] == 'true') {
                         <div class="uk-form-row">
                            <button class="uk-button uk-button-primary" type="submit" name="update-bio">Update Bio Page</button>
                         </div>
+                     </center>
                      </form>
                   </div>
                   <div class="uk-card-body">
@@ -228,7 +230,7 @@ if ($row['banned'] == 'true') {
                            </div>
                         </section>
                      </div>
-                      soon
+                     <center>Soon</center>
                      <div>
                      <br>
                      </div> 
