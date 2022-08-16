@@ -172,6 +172,7 @@ $randomint = rand(1, 1000000);
                             </div>
                          </div>
 
+                         <div class="uk-inline">
                          <select class="uk-select" name="selectedmail" style="margin-top: 5px;">
                            <option value="helist.email" selected>helist.email</option>
                            <?php
@@ -184,6 +185,7 @@ $randomint = rand(1, 1000000);
                            }
                            ?>
                           </select>
+                           </div>
 
                          <div class="uk-margin">
                             <div class="uk-inline">
