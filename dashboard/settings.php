@@ -105,6 +105,7 @@ $subdomain = $rows['subdomain'];
 $selecteddomain = $rows['domain'];
 $webhook = $rows['webhook'];
 $userpath = $rows['path'];
+$custom_path_enable = $rows['use_custom_path'];
 ?>
 <!DOCTYPE html>
 <html>
@@ -255,7 +256,7 @@ $userpath = $rows['path'];
                         <div class="custom-control custom-checkbox">
                            <input type="checkbox" class="custom-control-input" name="use_custom_path" <?php echo $custom_path; ?>>
                            <label class="custom-control-label" for="customCheck3">Custom Path</label>
-                           <?php if ($custom_path == "checked") { ?>
+                           <?php if ($$custom_path_enable == "true") { ?>
                             <a href="#modal-custom-path" uk-toggle>
                                 <i class="fas fa-info-circle"></i>
                             </a>
