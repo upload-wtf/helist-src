@@ -94,7 +94,7 @@ if (isset($_GET["user"])) {
   </div>
 </body>
 </html>';
-}
+} else {
 
 session_start();
 
@@ -816,4 +816,5 @@ if(isset($_POST['set_custom_path'])){
 </script>
 </html>
 
-
+<?php 
+} ?>
