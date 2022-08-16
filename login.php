@@ -29,7 +29,7 @@ include "./src/functions.php";
                 <a href="/" class="uk-navbar-item uk-logo"><img src="https://helist.host/assets/img/helist-logo.png" alt="Logo" style="height: 2em; -moz-user-select: none;" draggable="false"></a>
                 <ul class="uk-navbar-nav">
                     <li><a href="/">Home</a></li>
-                    <li><a href="/register">Resgister</a></li>
+                    <li><a href="/register">Register</a></li>
                     <li><a href="/login" style="color: white">Login</a></li>
                 </ul>
             </div>

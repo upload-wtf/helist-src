@@ -50,7 +50,7 @@ $succeded = array();
                 <a href="/" class="uk-navbar-item uk-logo"><img src="https://helist.host/assets/img/helist-logo.png" alt="Logo" style="height: 2em; -moz-user-select: none;" draggable="false"></a>
                 <ul class="uk-navbar-nav">
                     <li><a href="/">Home</a></li>
-                    <li><a href="/register" style="color: white">Resgister</a></li>
+                    <li><a href="/register" style="color: white">Register</a></li>
                     <li><a href="/login" >Login</a></li>
                 </ul>
             </div>

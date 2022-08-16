@@ -1,0 +1,140 @@
+
+/* Rotating entrances */
+.rotate {
+     animation-name: rotate;
+     animation-duration: 3s;
+     animation-fill-mode: both;
+     transform-origin: center;
+   }
+   
+   @keyframes rotate {
+     from {
+       transform: rotate3d(0, 0, 1, -200deg);
+     }
+   
+     to {
+       transform: translate3d(0, 0, 0);
+     }
+   }
+   
+   .logo-container {
+     position: relative;
+     text-align: center;
+     color: white;
+   }
+   
+   .logo-centered {
+     position: absolute;
+     top: 50%;
+     left: 50%;
+     font-family: ll;
+     font-size: 78px;
+     font-weight: 100;
+     transform: translate(-50%, -50%);
+   }
+   
+   .parent-footer {
+       margin: auto;
+       top: 35px;
+       position: relative;
+       right: 123px;
+   }
+   .image-footer1 {
+       position: relative;
+       width: 32px !important;
+       min-width:32px;
+   }
+   
+   .image-footer2 {
+       position: relative;
+       bottom: 7px;
+       right: 27px;
+       width: 12px !important;
+       min-width: 13px;
+       height: auto;
+   }
+   
+   .parent-footers {
+       margin: auto;
+       top: 39px;
+       position: relative;
+       right: 12px;
+   }
+   .image-footers1 {
+       position: relative;
+       width: 32px !important;
+       min-width:32px;
+   }
+   
+   .image-footers2 {
+       position: relative;
+       bottom: 0px;
+       right: 26px;
+       width: 12px !important;
+       min-width: 13px;
+       height: auto;
+   }
+   
+   .text-footers {
+       padding-left: 22px;
+   }
+   
+   .sections {
+       padding-left: 50px;
+   }
+   
+   @keyframes spin {
+     100% {transform: rotate(1turn); }
+   }
+   
+   section:hover #footer_spin{
+          animation-play-state: running;
+   }
+   
+   section #footer_spin{
+     animation: spin 4s linear infinite;
+     animation-play-state: paused; 
+   }
+   
+   .toggle {
+     display: flex;
+     align-items: center;
+     justify-content: space-around;
+     max-width: 140px;
+     transform: scale(0.7);
+   }
+   .toggle span {
+     margin: 0 0.5rem;
+   }
+   .toggle input[type=checkbox] {
+     height: 0;
+     width: 0;
+     visibility: hidden;
+   }
+   .toggle input[type=checkbox]:checked + label {
+     background: teal;
+   }
+   .toggle input[type=checkbox]:checked + label:after {
+     left: calc(100% - 2px);
+     transform: translateX(-100%);
+   }
+   .toggle label {
+     cursor: pointer;
+     width: 75px;
+     height: 34px;
+     background: rgba(0, 0, 0, 0.27);
+     display: block;
+     border-radius: 40px;
+     position: relative;
+   }
+   .toggle label:after {
+     content: "";
+     position: absolute;
+     top: 2px;
+     left: 2px;
+     width: 30px;
+     height: 30px;
+     background: #fff;
+     border-radius: 40px;
+     transition: 0.3s;
+   }

@@ -162,7 +162,7 @@ $randomint = rand(1, 1000000);
                            </div>
                         </section>
                      </div>
-                     <center>Currently we do not support custom mail domains</center>
+
                      <form action="" method="post" name="form"><br><br>
                          <center>
                          <div class="uk-margin">
@@ -171,6 +171,20 @@ $randomint = rand(1, 1000000);
                                 <input class="uk-input" type="text" name="mail" placeholder="Email">
                             </div>
                          </div>
+
+                         <select class="uk-select" name="selectedmail" style="margin-top: 5px;">
+                           <option value="<?php echo $selectedmail; ?>" selected><?php echo $selectedmail; ?></option>
+                           <?php
+                           $sql = 'SELECT name FROM domains WHERE mail = "true"';
+                           $result = mysqli_query($db, $sql);
+                           while ($row = mysqli_fetch_assoc($result)) {
+                              echo "<option class='bg-dark'>" .
+                                 $row['name'] .
+                                 '</option>';
+                           }
+                           ?>
+                          </select>
+
                          <div class="uk-margin">
                             <div class="uk-inline">
                                 <span class="uk-form-icon" uk-icon="icon: lock"></span>
@@ -282,7 +296,7 @@ if(isset($_POST["delete-mail"])){
 if(isset($_POST["create-mail"])) {
 
    $mail = $_POST['mail'];
-   $mailend = $_POST['mailend'];
+   $mailend = $_POST['selectedmail'];
    $password = $_POST['mail-password'];
 
    $custommail = $mail . $mailend;
@@ -297,7 +311,7 @@ if(isset($_POST["create-mail"])) {
 
    curl_setopt($ch, CURLOPT_POSTFIELDS, "{
       \"local_part\": \"$mail\",
-      \"domain\": \"helist.email\", 
+      \"domain\": \"$mailend\", 
       \"name\": \"$username\", 
       \"quota\": \"512\", 
       \"password\": \"$password\", 

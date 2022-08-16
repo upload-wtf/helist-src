@@ -38,7 +38,7 @@ function generateRandomEmoji(): string
           $string .= $thing;
      }
 
-     for ($i = 0; $i <= 70; $i++) {
+     for ($i = 0; $i <= 34; $i++) {
           $random_keys = array_rand($an);
           $thing = json_decode('"' . $an[$random_keys] . '"');
           $string .= $thing;
