@@ -164,7 +164,7 @@ $randomint = rand(1, 1000000);
                      </div>
 
                      <form action="" method="post" name="form"><br><br>
-                         <center>
+                         <!-- <center> -->
                          <div class="uk-margin">
                             <div class="uk-inline">
                                 <span class="uk-form-icon" uk-icon="icon: mail"></span>
@@ -173,7 +173,7 @@ $randomint = rand(1, 1000000);
                          </div>
 
                          <select class="uk-select" name="selectedmail" style="margin-top: 5px;">
-                           <option value="<?php echo $selectedmail; ?>" selected><?php echo $selectedmail; ?></option>
+                           <option value="helist.email" selected>helist.email</option>
                            <?php
                            $sql = 'SELECT name FROM domains WHERE mail = "true"';
                            $result = mysqli_query($db, $sql);
@@ -194,7 +194,7 @@ $randomint = rand(1, 1000000);
                          <div class="uk-margin">
                             <button class="uk-button uk-button-primary" type="submit" name="create-mail">Submit</button>
                          </div>
-                         </center>
+                         <!-- </center> -->
                      </form>
                   </div>
                   <div class="uk-card-body">

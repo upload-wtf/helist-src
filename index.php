@@ -348,7 +348,7 @@ if (isset($_GET['f'])) {
                     <img src="https://helist.host/assets/img/helist-logo.png" alt="Logo" style="height: 2em; -moz-user-select: none;" draggable="false"></a>
                 <ul class="uk-navbar-nav">
                     <li><a href="/">Home</a></li>
-                    <li><a href="/register">Resgister</a></li>
+                    <li><a href="/register">Register</a></li>
                     <li><a href="/login">Login</a></li>
                 </ul>
             </div>
