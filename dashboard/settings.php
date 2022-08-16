@@ -104,6 +104,7 @@ $rows = mysqli_fetch_assoc($result);
 $subdomain = $rows['subdomain'];
 $selecteddomain = $rows['domain'];
 $webhook = $rows['webhook'];
+$userpath = $rows['path'];
 ?>
 <!DOCTYPE html>
 <html>
@@ -254,9 +255,11 @@ $webhook = $rows['webhook'];
                         <div class="custom-control custom-checkbox">
                            <input type="checkbox" class="custom-control-input" name="use_custom_path" <?php echo $custom_path; ?>>
                            <label class="custom-control-label" for="customCheck3">Custom Path</label>
+                           <?php if ($custom_path == "checked") { ?>
                             <a href="#modal-custom-path" uk-toggle>
                                 <i class="fas fa-info-circle"></i>
                             </a>
+                            <?php } ?>
                         </div>
                         <button type="submit" class="uk-button uk-button-primary" name="button1" onclick="abfrage(this.form)" style="width: 100%;"><i class="fas fa-edit white-icon p-0"></i> Save
                         </button>
@@ -428,7 +431,7 @@ $webhook = $rows['webhook'];
         <div class="uk-margin">
             <div class="uk-inline">
                 <span class="uk-form-icon" uk-icon="icon: folder"></span>
-                <input class="uk-input" type="text" name="path" value="<?php echo $webhook ?>" placeholder="Path">
+                <input class="uk-input" type="text" name="path" value="<?php echo $userpath ?>" placeholder="Path">
             </div>
         </div>
         <div class="uk-margin">
