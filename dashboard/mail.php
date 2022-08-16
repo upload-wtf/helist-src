@@ -303,7 +303,7 @@ if(isset($_POST["create-mail"])) {
       \"password\": \"$password\", 
       \"password2\": \"$password\", 
       \"active\": \"1\" ,
-      \"force_pw_update\": \"1\",
+      \"force_pw_update\": \"0\",
       \"tls_enforce_in\": \"0\",
       \"tls_enforce_out\": \"0\"
    }");
