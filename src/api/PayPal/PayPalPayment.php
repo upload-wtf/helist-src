@@ -18,11 +18,11 @@ class PaypalPayment
 
     $this->mode = 'production'; //production
 
-    $this->clienteIDSandbox = 'AdFR3n9ZQ0n_kigPa9M1q0h2Y4oftgImQiAbU8NmKwYdbajq1mFaGR4Bw-OcFlJsvUuceqnZc9dkTMtY';
-    $this->secretSandbox = 'EDeGdDtXZ6-8dNRCBwHpUxTDQdWgXikutLCdtaP5SjYmqXjC_OvvyeP4i4hgBQP5vpb75jw59zHgF5BK';
+    $this->clienteIDSandbox = '';
+    $this->secretSandbox = '';
 
-    $this->clienteIDLive = 'AaagniMZj4UdqfwC8-MD7xu_Xej5RFIxSZNr7K7AcpgTl1TvSBTFee0Lzp7IaN7hN1Scwc0PmaPOxKuh';
-    $this->secretLive = 'AaagniMZj4UdqfwC8-MD7xu_Xej5RFIxSZNr7K7AcpgTl1TvSBTFee0Lzp7IaN7hN1Scwc0PmaPOxKuh';
+    $this->clienteIDLive = '';
+    $this->secretLive = '';
 
     $this->currency = 'EUR';
 

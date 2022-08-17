@@ -14,7 +14,7 @@ $id = $row['id'];
 
 use CoinbaseCommerce\Webhook;
 
-$secret = '1f3b15bd-3e95-4aef-9a2c-397e08bbc0df';
+$secret = '';
 $headerName = 'x-cc-webhook-signature';
 $headers = getallheaders();
 $signraturHeader = isset($headers[$headerName]) ? $headers[$headerName] : null;
