@@ -175,7 +175,7 @@ $randomint = rand(1, 1000000);
 
                          <div class="uk-inline">
                          <select class="uk-select" name="selectedmail" style="margin-top: 5px;">
-                           <option value="helist.email" selected>helist.email</option>
+                           <option value="" selected id="schneger">Select Domain</option>
                            <?php
                            $sql = 'SELECT name FROM domains WHERE mail = "true"';
                            $result = mysqli_query($db, $sql);
@@ -227,7 +227,7 @@ $randomint = rand(1, 1000000);
                          <div class="uk-margin">
                               <div class="uk-inline">
                                    <span class="uk-form-icon" uk-icon="icon: mail"></span>
-                                   <input class="uk-input" type="text" name="mail" value="<?php echo $mail ?>@helist.email" disabled>
+                                   <input class="uk-input" type="text" name="mail" value="<?php echo $mail ?>" disabled>
                               </div>
                               <div class="uk-inline">
                                  <form method="POST" action="">
@@ -251,6 +251,17 @@ $randomint = rand(1, 1000000);
 </div>
 
    </body>
+
+   <script>
+
+       var schneger = document.getElementById('schneger');
+       if (schneger.value == "") {
+           schneger.value = "helist.email";
+
+       }
+
+   </script>
+
    <?php
 
 if(isset($_POST["delete-mail"])){
@@ -266,9 +277,9 @@ if(isset($_POST["delete-mail"])){
 
    curl_setopt($ch, CURLOPT_POST, TRUE);
 
-   curl_setopt($ch, CURLOPT_POSTFIELDS, "{
+   curl_setopt($ch, CURLOPT_POSTFIELDS, "[
       \"$mail\"
-   }");
+   ]");
 
    curl_setopt($ch, CURLOPT_HTTPHEADER, array(
    "Content-Type: application/json",
@@ -278,7 +289,7 @@ if(isset($_POST["delete-mail"])){
    $response = curl_exec($ch);
    curl_close($ch);
 
-   var_dump($response);
+   // var_dump($response);
 
    $resp = json_decode($response, true); 
    $type = $resp['type'];
@@ -302,7 +313,7 @@ if(isset($_POST["create-mail"])) {
    $mailend = $_POST['selectedmail'];
    $password = $_POST['mail-password'];
 
-   $custommail = $mail . $mailend;
+   $custommail = $mail . '@' . $mailend;
 
    $ch = curl_init();
 
