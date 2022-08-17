@@ -17,7 +17,7 @@ require_once "../../vendor/autoload.php";
 use CoinbaseCommerce\Resources\Charge;
 use CoinbaseCommerce\ApiClient;
 
-ApiClient::init('');
+ApiClient::init('bd352c70-cb34-4306-ac59-873b2c855a91');
 
 
 $chargeData = [
