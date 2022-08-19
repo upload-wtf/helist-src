@@ -83,6 +83,7 @@ $succeded = array();
     $username = mysqli_real_escape_string($db, $_POST['username']);
     $password = mysqli_real_escape_string($db, $_POST['password']);
     $ip = $_SERVER['REMOTE_ADDR'];
+    $uuid = uuid();
     $c_password = mysqli_real_escape_string($db, $_POST['c_password']);
     $key = mysqli_real_escape_string($db, $_POST['key']);
     if (empty($username)) {
