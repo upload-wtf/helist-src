@@ -16,7 +16,7 @@ RewriteRule ^([^/]+)/?$ index.php?f=$1
 RewriteRule ^invite/([A-Za-z0-9-]+)/?$ register.php?invite=$1 [NC]
 RewriteRule ^invite/([A-Za-z0-9-]+)/?$ register.php?invite=$1 [NC]
 RewriteRule ^profile/([A-Za-z0-9-]+)/?$ dashboard/user?profile=$1 [NC]
-RewriteRule ^bio/([A-Za-z0-9-]+)/?$ dashboard/bio?user=$1 [NC]
+RewriteRule ^bio/([A-Za-z0-9-]+)/?$ bio.php?user=$1 [NC]
 RewriteCond %{HTTPS} !=on
 RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 

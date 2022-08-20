@@ -8,6 +8,9 @@ session_start();
 if (isset($_SESSION['username']) && !isset($_GET['f'])) {
     header('location: ./dashboard');
 }
+
+
+
 ?>
 <html>
 <?php
@@ -317,126 +320,37 @@ if (isset($_GET['f'])) {
             <meta content='https://helist.host/assets/images/banner.png' property='og:image'>";
           } ?>
      </head>
-     <!DOCTYPE html>
-     <html lang="en">
-     <head>
-    <title>helist.host</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="helist.host image host">
-    <meta name="twitter:image" content="https://helist.host/assets/img/helist-logo.png">
-    <meta property="twitter:card" content="summary_large_image">
-    <meta name="theme-color" content="282828">
-    <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1">
-      <link rel="stylesheet" href="https://https://helist.host/assets/css/uikit.min.css" />
-      <link rel="stylesheet" href="https://helist.host/assets/css/style.css" />
-      <script src="https://helist.host/assets/js/uikit.min.js"></script>
-      <script src="https://helist.host/assets/js/uikit-icons.min.js"></script>
-      <link rel="icon" type="image/png" href="https://helist.host/assets/img/helist-logo.png">
-      <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
-<link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/css/toastr.css" rel="stylesheet"/>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.js"></script>
+     <!doctype html>
+<html>
 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com/"></script>
 </head>
 
-     
-     <body>
-    <div class="sel-target: .uk-navbar-container; cls-active: uk-navbar-sticky">
-        <nav class="uk-navbar-container uk-margin" uk-navbar="mode: click">
-            <div class="uk-navbar-left">
-                <a href="/" class="uk-navbar-item uk-logo">
-                    <img src="https://helist.host/assets/img/helist-logo.png" alt="Logo" style="height: 2em; -moz-user-select: none;" draggable="false"></a>
-                <ul class="uk-navbar-nav">
-                    <li><a href="/">Home</a></li>
-                    <li><a href="/register">Register</a></li>
-                    <li><a href="/login">Login</a></li>
-                </ul>
-            </div>
-        </nav>
-    </div>
-    <header class="uk-block uk-block-large uk-margin-large-bottom uk-margin-large-top">
-        <div class="uk-container uk-container-center">
-            <section class="uk-grid uk-grid-match" data-uk-grid-margin="">
-                <div class="uk-width-medium-1-1">
-                    <div class="uk-panel uk-text-center">
-                        <img data-src="" width="20%" alt="Logo" style="max-width: 200px; -moz-user-select: none;" draggable="false" uk-img data-cf-modified-433fae1a51dc16b212d8cee3-="">
-                        <h1 class="uk-heading-medium uk-text-bold">HelistHost</h1>
-                        <p>A free image host.</p>
-                    </div>
-                </div>
-            </section>
-        </div>
-    </header>
-
-    <div class="uk-container uk-margin-small-bottom">
-        <div class="uk-child-width-1-2@s uk-grid-small" uk-grid uk-height-match="target: > div > .uk-card">
-            <div>
-                <div class="uk-card uk-card-default uk-card-small">
-                    <div class="uk-text-center uk-card-body">Share your media the best way.</div>
-                </div>
-            </div>
-            <div>
-                <div class="uk-card uk-card-default uk-card-small">
-                    <div class="uk-text-center uk-card-body">Supports all platforms.</div>
-                </div>
-            </div>
-            <div>
-                <div class="uk-card uk-card-default uk-card-small">
-                    <div class="uk-text-center uk-card-body">Trusted by <span style="font-weight:bold;">
-                    <?php
-                    $sql = 'SELECT COUNT(*) FROM users';
-                    $result = mysqli_query($db, $sql);
-                    $row = mysqli_fetch_array($result);
-                    echo $row[0];
-                    ?>
-                        </span> users</div>
-                </div>
-            </div>
-            <div>
-                <div class="uk-card uk-card-default uk-card-small">
-                    <div class="uk-text-center uk-card-body">Using the host is free of charge for everyone.</div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="uk-container uk-margin-medium-top uk-margin-small-bottom">
-        <h1 class="uk-heading-line uk-text-center"><span>Statistics</span></h1>
-        <div class="uk-child-width-1-3@s uk-grid-small" uk-grid>
-            <div>
-                <div class="uk-card uk-card-default uk-card-small">
-                    <div class="uk-text-center uk-card-body">Users Registered: <span style="font-weight:bold;">
-                    <?php
-                    $sql = 'SELECT COUNT(*) FROM users';
-                    $result = mysqli_query($db, $sql);
-                    $row = mysqli_fetch_array($result);
-                    echo $row[0];
-                    ?>
-                        </span></div>
-                </div>
-            </div>
-            <div>
-                <div class="uk-card uk-card-default uk-card-small">
-                    <div class="uk-text-center uk-card-body">Banned users: <span style="font-weight:bold;">
-                    <?php
-                    $sql = 'SELECT COUNT(*) FROM users WHERE banned = "true"';
-                    $result = mysqli_query($db, $sql);
-                    $row = mysqli_fetch_array($result);
-                    echo $row[0];
-                    ?>
-                        </span></div>
-                </div>
-            </div>
-            <div>
-                <div class="uk-card uk-card-default uk-card-small">
-                    <div class="uk-text-center uk-card-body">Files Uploaded: <span style="font-weight:bold;">
-                            <?php
-                            $sql = 'SELECT COUNT(*) FROM uploads';
-                            $result = mysqli_query($db, $sql);
-                            $row = mysqli_fetch_array($result);
-                            echo $row[0];
-                            ?>
-                        </span></div>
-                </div>
+<body style="background-color: rgb(17, 16, 16);">
+    <div class="flex h-screen flex-col justify-center">
+        <div>
+            <h1 class="text-center text-4xl text-gray-300">
+                helist.host
+            </h1>
+            <p class="text-center text-gray-300">
+                A platform for sharing and hosting your files.
+            </p><br>
+            <div class="text-center gap-2">
+                <button
+                    class="items-center rounded-lg border border-[#fcfcfc] p-1 px-3 text-lg text-gray-200 transition-all hover:border-[#535354] hover:bg-[#535354]">
+                    <a href="login" class="text-white">Login</a>
+                </button>
+                <button
+                    class="items-center rounded-lg border border-[#fcfcfc] p-1 px-3 text-lg text-gray-200 transition-all hover:border-[#535354] hover:bg-[#535354]">
+                    <a href="register" class="text-white">Register</a>
+                </button>
+                <button class="items-center rounded-lg border border-[#2932d9] p-1 px-3 text-lg text-gray-200 transition-all hover:border-[#1925a6] hover:bg-[#1925a6]">
+                    <a href="https://discord.com/invite/helist/" class="text-white">Discord</a>
+                        
+                </button>
             </div>
         </div>
     </div>
