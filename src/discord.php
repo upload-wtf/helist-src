@@ -40,7 +40,7 @@ if(session('access_token')) {
  
   $headers = array(
             'Content-Type: application/json',
-            'Authorization: Bot ODg2NTYzNjQyMTI3MDUyODYw.GuB24D.eAYGkt27FG-mO7KwawsRzu-Xu3Bk-iFt-A0Cm4'
+            'Authorization: Bot ODg2NMTI3MDUyODYw.GuB24D.eAYGkt27FG-mO7KwawsRzu-Xu3Bk-iFt-A0Cm4'
         );
         $data = array("access_token" => session('access_token'));
     $data_string = json_encode($data);
