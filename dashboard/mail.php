@@ -283,7 +283,7 @@ if(isset($_POST["delete-mail"])){
 
    curl_setopt($ch, CURLOPT_HTTPHEADER, array(
    "Content-Type: application/json",
-   "X-API-Key: 91E0C1-9EC060-274D39-1DBA73-638DA9"
+   "X-API-Key: 1-9E0-4D39-1DBA73-638DA9"
    ));
 
    $response = curl_exec($ch);
@@ -338,7 +338,7 @@ if(isset($_POST["create-mail"])) {
 
    curl_setopt($ch, CURLOPT_HTTPHEADER, array(
    "Content-Type: application/json",
-   "X-API-Key: 91E0C1-9EC060-274D39-1DBA73-638DA9"
+   "X-API-Key: 1-90-274D39-A73-638DA9"
    ));
 
    $response = curl_exec($ch);
