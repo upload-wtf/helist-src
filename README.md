@@ -49,6 +49,8 @@ Setup the image hoster easy
 
 Some features (not all)
 
+- Mailboxes with Mailcow
+
 - Invisible URL
 
 - Emoji URL
